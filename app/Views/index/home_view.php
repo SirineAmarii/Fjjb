@@ -27,7 +27,8 @@ FJJB – Accueil
         <h3>Championnat National</h3>
       </div>
     </div>
-    <a href="#" class="btn-link">Voir le calendrier complet</a>
+   
+    <a href="<?= base_url('competitions') ?>" class="btn-link">Voir le calendrier complet</a>
   </section>
 
   <section class="about">
@@ -47,7 +48,8 @@ FJJB – Accueil
       <li>Programme de formation continue</li>
       <li>Avantages réservés aux licenciés</li>
     </ul>
-    <a href="#" class="btn-secondary">S’inscrire</a>
+   
+    <a href="<?= base_url('inscription') ?>" class="btn-secondary">S'inscrire</a>
   </section>
 
   <?= $this->endSection() ?>

@@ -8,7 +8,7 @@
 
 /* Variables de couleurs */
 :root {
-  --bleu-marine: #0B1C33;
+  --bleu-marine: #0B1C39;
   --rouge: #C22926;
   --blanc: #FFFFFF;
   --gris-clair: #F2F2F2;
@@ -201,57 +201,612 @@ nav a {
   text-decoration: none;
 }
 
-/* Footer */
-footer {
+.btn-secondary:hover {
   background-color: var(--bleu-marine);
   color: var(--blanc);
-  padding: 2rem 1rem;
 }
 
-footer .container {
+/* ======================================
+   FOOTER – FJJB
+   ====================================== */
+
+   footer {
+    background-color: var(--bleu-marine);
+    color: var(--blanc);
+    padding: 3rem 1rem 2rem 1rem;
+  }
+  
+  footer .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .footer-column {
+    flex: 1 1 200px;
+    min-width: 180px;
+  }
+  
+  .footer-column h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--blanc);
+  }
+  
+  .footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-column li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-column a {
+    color: var(--blanc);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  
+  .footer-column a:hover {
+    text-decoration: underline;
+  }
+  
+  .logo-column img {
+    height: 80px;
+  }
+  
+  .socials .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .social-icons a {
+    color: var(--blanc);
+    font-size: 3rem;
+    transition: color 0.3s;
+  }
+  
+  .social-icons a:hover {
+    color: var(--rouge);
+  }
+  
+  footer .copyright {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 0.85rem;
+    color: #ccc;
+  }
+  
+
+
+/* ======================================
+   PAGE COMPETITIONS – FJJB
+   ====================================== */
+
+   .competitions-page {
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  
+  .competitions-page h2 {
+    font-size: 2rem;
+    color: var(--bleu-marine);
+    margin-bottom: 0.5rem;
+  }
+  
+  .competitions-page .subtext {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: var(--text);
+  }
+  
+  .filters-comp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  
+  .filters-comp select {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .competitions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+  }
+  
+  .competition-card {
+    border: 1px solid #aaa;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 320px;
+    background-color: #fff;
+    border-radius: 6px;
+  }
+  
+  .competition-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  
+  .competition-card .date {
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .btn {
+    padding: 0.4rem 1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .btn.blue {
+    background-color: var(--bleu-marine);
+    color: var(--blanc);
+  }
+  
+  .btn.red {
+    background-color: var(--rouge);
+    color: var(--blanc);
+  }
+  
+  .btn.light {
+    background-color: var(--gris-clair);
+    color: #000;
+  }
+
+  /* ======================================
+   PAGE CLUBS – FJJB
+   ====================================== */
+
+.clubs-page {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.clubs-page h2 {
+  font-size: 2rem;
+  color: var(--bleu-marine);
+  margin-bottom: 2rem;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 2rem auto;
+  gap: 0.5rem; /* Espace entre input et bouton */
+}
+
+.search-input {
+  width: 80%;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.search-btn {
+  width: 20%;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 1px solid var(--rouge);
+  background-color: var(--rouge);
+  color: var(--blanc);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #a8201d; /* version plus foncée au survol */
+}
+
+
+.filters-club {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: auto;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
 }
 
-footer nav a, .socials a {
-  display: block;
-  color: var(--blanc);
-  text-decoration: none;
-  margin: 0.25rem 0;
+.filters-club select {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-footer img {
-  height: 80px;
+.clubs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+.club-card {
+  border: 1px solid #aaa;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 320px;
+  background-color: #fff;
+  border-radius: 6px;
+  text-align: left;
+  position: relative;
+}
+
+.club-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+  color: var(--bleu-marine);
+}
+
+.club-card .city {
+  font-weight: bold;
   margin-bottom: 1rem;
 }
 
-footer .copyright {
-  text-align: center;
-  margin-top: 2rem;
-  font-size: 0.875rem;
+.club-card i {
+  margin-right: 0.5rem;
+  color: var(--bleu-marine);
 }
 
-.socials {
+.club-card .btn {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  font-size: 0.9rem;
+  padding: 0.3rem 1rem;
+}
+
+.pagination {
+  margin-top: 3rem;
   display: flex;
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.2rem;
 }
 
-.socials a {
-  color: var(--blanc); /* ou var(--text) si fond clair */
-  font-size: 3rem;
-  text-decoration: none;
-  transition: color 0.3s;
+.pagination .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--text);
 }
 
-.socials a:hover {
+
+
+/* ======================================
+   PAGE RÉSULTATS – FJJB
+   ====================================== */
+
+   .resultats-page {
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  
+  .resultats-page h2 {
+    font-size: 2rem;
+    color: var(--bleu-marine);
+    margin-bottom: 2rem;
+  }
+  
+  .search-zone {
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+  }
+  
+  .result-search {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #999;
+    border-radius: 6px;
+  }
+  
+  .filters-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 900px;
+    margin: 0 auto 2rem auto;
+  }
+  
+  .filters-result select {
+    width: 100px; 
+    text-align: center;
+    min-width: 150px;
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .filter-btn {
+    width: auto;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    white-space: nowrap;
+    background-color: var(--rouge);
+    color: var(--blanc);
+    border: 1px solid var(--rouge);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-btn:hover {
+    background-color: #a8201d;
+  }
+  
+  .resultats-table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+    margin-top: 1.5rem;
+  }
+  
+  .resultats-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .resultats-table th,
+  .resultats-table td {
+    border: 1px solid #ccc;
+    padding: 0.8rem;
+    font-size: 0.95rem;
+    text-align: left;
+  }
+  
+  .resultats-table th {
+    background-color: var(--gris-clair);
+    color: var(--bleu-marine);
+    font-weight: bold;
+  }
+  
+  /* ======================================
+   PAGE CONNEXION – FJJB
+   ====================================== */
+
+.login-page {
+  background-color: var(--gris-clair);
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.login-box {
+  background-color: white;
+  max-width: 400px;
+  margin: 0 auto 2rem auto;
+  padding: 2.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.login-box h2 {
+  font-size: 1.8rem;
+  color: var(--bleu-marine);
+  margin-bottom: 2rem;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px #ddd;
+}
+
+.btn.full {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.register-link {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+}
+
+.register-link a {
   color: var(--rouge);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.logo-login {
+  width: 180px;
+  margin-top: 2rem;
+}
+
+.alert {
+  background-color: #ffe5e5;
+  color: #c22926;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 
+/* ======================================
+   PAGE INSCRIPTION – FJJB
+   ====================================== */
+
+   .register-page {
+    background-color: var(--gris-clair);
+    padding: 4rem 1rem;
+    text-align: center;
+  }
+  
+  .register-box {
+    background-color: white;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  }
+  
+  .register-box h2 {
+    font-size: 1.8rem;
+    color: var(--bleu-marine);
+    margin-bottom: 2rem;
+  }
+  
+  .register-box input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px #ddd;
+  }
+  
+  .btn.full {
+    width: 100%;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 1rem;
+  }
+  
+  .register-link {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .register-link a {
+    color: var(--rouge);
+    font-weight: bold;
+    text-decoration: none;
+  }
+  /*Votre message dans page de contact*/
+
+  .register-box textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px #ddd;
+    resize: vertical;
+    min-height: 150px;
+  }
+
+
+/* ======================================
+   PAGE ESPACE LICENCIE – FJJB
+   ====================================== */
+
+  .dashboard-page {
+    background-color: var(--gris-clair);
+    padding: 4rem 1rem;
+  }
+  
+  .dashboard-box {
+    background-color: #fff;
+    max-width: 600px;
+    margin: auto;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .dashboard-box h2 {
+    color: var(--bleu-marine);
+    margin-bottom: 1rem;
+  }
+  
+  .dashboard-box .intro {
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .dashboard-actions .btn {
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    background-color: var(--bleu-marine);
+    color: var(--blanc);
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .dashboard-actions .btn.red {
+    background-color: var(--rouge);
+  }
+  
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    justify-content: center;
+  }
+  
+  .profile-section img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--bleu-marine);
+  }
+  
+  .profile-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+  }
+  
+
+  
 /* Menu Responsive*/
 
 @media (max-width: 768px) {
@@ -263,3 +818,5 @@ footer .copyright {
     margin: 0.5rem 0;
   }
 }
+
+
