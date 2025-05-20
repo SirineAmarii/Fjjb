@@ -18,6 +18,10 @@ class App extends BaseConfig
      */
     public string $baseURL = 'http://formation.acc/fjjb-bis/';
 
+    public string $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
+    public string $sessionCookieName = 'ci_session';
+
+
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
      * If you want to accept multiple Hostnames, set this.

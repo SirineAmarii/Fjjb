@@ -11,8 +11,8 @@ FJJB – Accueil
     <a href="#competitions" class="btn-primary">Voir les prochaines compétitions</a>
   </section>
 
-  <section class="competitions" id="competitions">
-    <h2>Nos compétitions</h2>
+ <section class="competitions-home">
+  <h2>Nos compétitions</h2>
     <div class="cards">
       <div class="card red">
         <p class="date">18 juin 2025</p>
@@ -28,8 +28,10 @@ FJJB – Accueil
       </div>
     </div>
    
-    <a href="<?= base_url('competitions') ?>" class="btn-link">Voir le calendrier complet</a>
-  </section>
+
+  <a href="<?= base_url('competitions') ?>" class="btn-link">Voir le calendrier complet</a>
+</section>
+
 
   <section class="about">
     <div class="text">

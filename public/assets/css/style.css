@@ -101,11 +101,55 @@ nav a {
 }
 
 /* Competitions */
-.competitions {
-  padding: 3rem 1rem;
-  background-color: var(--gris-clair);
-  text-align: center;
+.competition-card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
 }
+
+.competition-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.competition-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.competition-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.competition-content .date {
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.competition-card .actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.competitions-home {
+  text-align: center;
+  margin: 4rem auto;
+}
+
+.competitions-home h2 {
+  font-size: 2rem;
+  color: var(--bleu-marine);
+  margin-bottom: 1rem;
+}
+
 
 .cards {
   display: flex;
@@ -287,99 +331,150 @@ nav a {
   
 
 
-/* ======================================
-   PAGE COMPETITIONS – FJJB
+
+ /* ======================================
+   PAGE COMPÉTITIONS – FJJB
    ====================================== */
 
-   .competitions-page {
-    padding: 3rem 2rem;
-    text-align: center;
-  }
-  
-  .competitions-page h2 {
-    font-size: 2rem;
-    color: var(--bleu-marine);
-    margin-bottom: 0.5rem;
-  }
-  
-  .competitions-page .subtext {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    color: var(--text);
-  }
-  
-  .filters-comp {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-  }
-  
-  .filters-comp select {
-    padding: 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .competitions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    justify-items: center;
-  }
-  
-  .competition-card {
-    border: 1px solid #aaa;
-    padding: 1.5rem;
-    width: 100%;
-    max-width: 320px;
-    background-color: #fff;
-    border-radius: 6px;
-  }
-  
-  .competition-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-  }
-  
-  .competition-card .date {
-    margin-bottom: 1.2rem;
-    font-size: 0.95rem;
-    color: #555;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  
-  .btn {
-    padding: 0.4rem 1rem;
-    font-weight: bold;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-    flex: 1;
-  }
-  
-  .btn.blue {
-    background-color: var(--bleu-marine);
-    color: var(--blanc);
-  }
-  
-  .btn.red {
-    background-color: var(--rouge);
-    color: var(--blanc);
-  }
-  
-  .btn.light {
-    background-color: var(--gris-clair);
-    color: #000;
-  }
+.competitions-page {
+  padding: 3rem 2rem;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.competitions-page h2 {
+  font-size: 2rem;
+  color: var(--bleu-marine);
+  margin-bottom: 0.5rem;
+}
+
+.competitions-page .subtext {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+/* Recherche */
+.search-bar {
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 260px;
+}
+
+.search-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Grille */
+.competitions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+/* Card */
+.competition-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0,0,0,0.06);
+  max-width: 320px;
+  width: 100%;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.competition-card:hover {
+  transform: translateY(-5px);
+}
+
+.competition-card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Contenu */
+.competition-content {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.competition-content h3 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--bleu-marine);
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.competition-content .date {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+/* Boutons */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  flex: 1;
+  transition: background-color 0.3s;
+}
+
+.btn.blue {
+  background-color: var(--bleu-marine);
+  color: var(--blanc);
+}
+.btn.blue:hover {
+  background-color: #071327;
+}
+
+.btn.red {
+  background-color: var(--rouge);
+  color: var(--blanc);
+}
+.btn.red:hover {
+  background-color: #a7201e;
+}
+
+.btn.light {
+  background-color: var(--gris-clair);
+  color: #333;
+}
+.btn.light:hover {
+  background-color: #e0e0e0;
+}
+
 
   /* ======================================
    PAGE CLUBS – FJJB
@@ -488,21 +583,25 @@ nav a {
   padding: 0.3rem 1rem;
 }
 
-.pagination {
-  margin-top: 3rem;
+.pagination-arrows {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  font-size: 1.2rem;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-.pagination .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: var(--text);
+.pagination-arrows .arrow {
+  font-size: 2rem;
+  color: var(--bleu-marine);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
 }
+
+.pagination-arrows .arrow:hover {
+  color: var(--rouge);
+}
+
 
 
 
@@ -734,6 +833,54 @@ nav a {
     min-height: 150px;
   }
 
+  .register-box label {
+    display: block;
+    font-weight: bold;
+    margin: 1rem 0 0.5rem 0;
+    text-align: left;
+  }
+  
+  .register-box select,
+  .register-box input[type="text"],
+  .register-box input[type="email"],
+  .register-box input[type="password"],
+  .register-box input[type="file"],
+  .register-box textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
+    transition: border 0.2s ease;
+  }
+  
+  .register-box select:focus,
+  .register-box input:focus {
+    border: 1px solid var(--rouge);
+    outline: none;
+  }
+
+  .register-box select {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
+    appearance: none; /* enlève le style par défaut du navigateur */
+    background-color: #fff;
+  }
+  
+  .register-box label {
+    display: block;
+    font-weight: bold;
+    margin: 1rem 0 0.5rem 0;
+    text-align: left;
+  }
+  
 
 /* ======================================
    PAGE ESPACE LICENCIE – FJJB
@@ -804,7 +951,27 @@ nav a {
     margin: 0;
     font-size: 1rem;
   }
-  
+
+  .alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    border: 1px solid #c3e6cb;
+    text-align: center;
+  }
+
+  .alert.danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+  }
+
+
 
   
 /* Menu Responsive*/

@@ -19,6 +19,12 @@
       <a href="<?= base_url('deconnexion') ?>" class="btn red">Se déconnecter</a>
 
     </div>
+    <?php if (session()->getFlashdata('success')): ?>
+  <div class="alert success">
+    <?= session()->getFlashdata('success') ?>
+  </div>
+<?php endif; ?>
+
   </div>
 </section>
 

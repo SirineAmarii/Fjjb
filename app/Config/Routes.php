@@ -9,7 +9,12 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->get('/', 'Home::index');
  $routes->get('/competitions', 'Competitions::index');
+ $routes->get('competitions/search', 'Competitions::search');
+
  $routes->get('/clubs', 'Clubs::index');
+
+
+
  $routes->get('/resultats', 'Resultats::index');
 
 
@@ -17,9 +22,12 @@ $routes->match(['get', 'post'], 'connexion', 'Auth::connexion');
 $routes->get('deconnexion', 'Auth::deconnexion');
 
 
-$routes->get('inscription', 'Auth::register');
+$routes->match(['get', 'post'], 'inscription', 'Auth::inscription');
+
 $routes->post('connexion', 'Auth::handleLogin');
-$routes->get('espace-licencie', 'Auth::dashboard');
+$routes->get('espace-licencie', 'Auth::espaceLicencie');
+
+
 $routes->get('deconnexion', 'Auth::logout');
 
 
