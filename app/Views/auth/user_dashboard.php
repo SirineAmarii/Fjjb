@@ -7,7 +7,7 @@
     <div class="profile-section">
       <img src="<?= base_url('public/uploads/users/' . esc($user['photo'])) ?>" alt="Photo de profil">
       <ul>
-        <li><strong>Ceinture :</strong> <?= esc($user['ceinture']) ?></li>
+        <li><strong>Ceinture :</strong> <?= esc($user['belt']) ?></li>
         <li><strong>Club :</strong> <?= esc($user['club_nom']) ?></li>
         <li><strong>Email :</strong> <?= esc($user['email']) ?></li>
       </ul>

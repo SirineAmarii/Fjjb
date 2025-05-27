@@ -1,154 +1,75 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\UserModel;
-use App\Models\ClubModel;
 
+use App\Models\UserModel;
+use CodeIgniter\Controller;
 
 class Auth extends BaseController
 {
-    public function connexion()
+    // Affiche le formulaire de connexion
+    public function login()
     {
-        helper(['form']);
-        
-        if ($this->request->getMethod() === 'post') {
-            $email = $this->request->getPost('email');
-            $password = $this->request->getPost('password');
-            
-            $userModel = new UserModel();
-            $user = $userModel->where('email', $email)->first();
+        // Affiche la vue de connexion
+        return view('auth/login');
+    }
 
-            if ($user && password_verify($password, $user['password'])) {
-                session()->set([
-                    'user_id' => $user['id'],
-                    'prenom' => $user['prenom'],
-                    'role' => $user['role'],
-                    'isLoggedIn' => true
-                ]);
-                return redirect()->to('/espace-licencie');
+    // Traite la tentative de connexion
+    public function loginPost()
+    {
+        // Démarre la session utilisateur
+        $session = session();
+
+        // Initialise le modèle utilisateur
+        $userModel = new UserModel();
+
+        // Récupère les données du formulaire
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+
+        // Recherche un utilisateur avec l'email fourni
+        $user = $userModel->where('email', $email)->first();
+
+        if ($user) {
+            // Vérifie si le mot de passe est correct
+            if (password_verify($password, $user['password'])) {
+                // Crée les données de session à enregistrer
+                $sessionData = [
+                    'id_user'     => $user['id_user'],       // Identifiant utilisateur
+                    'first_name'  => $user['first_name'],    // Prénom
+                    'last_name'   => $user['last_name'],     // Nom
+                    'email'       => $user['email'],         // Email
+                    'role'        => $user['role'],          // Rôle (admin, club, etc.)
+                    'isLoggedIn'  => true                    // Statut de connexion
+                ];
+                // Enregistre les données dans la session
+                $session->set($sessionData);
+
+                // Redirige selon le rôle de l'utilisateur
+                if ($user['role'] === 'admin') {
+                    return redirect()->to('/admin/dashboard');
+                } elseif ($user['role'] === 'club') {
+                    return redirect()->to('/club/dashboard');
+                } else {
+                    return redirect()->to('/user/dashboard');
+                }
             } else {
-                return redirect()->back()->with('error', 'Email ou mot de passe invalide');
+                // Mot de passe incorrect : message d'erreur
+                $session->setFlashdata('error', 'Incorrect password.');
+                return redirect()->to('/login');
             }
+        } else {
+            // Aucun utilisateur trouvé avec cet email : message d'erreur
+            $session->setFlashdata('error', 'No user found with this email.');
+            return redirect()->to('/login');
         }
-
-        return view('auth/connexion_view');
     }
 
-    public function inscription()
+    // Déconnecte l'utilisateur et détruit la session
+    public function logout()
     {
-        helper(['form']);
-    
-        $clubModel = new \App\Models\ClubModel();
-        $clubs = $clubModel->findAll();
-    
-        if ($this->request->getMethod() === 'post') {
-    
-            $validationRules = [
-                'prenom' => 'required',
-                'nom' => 'required',
-                'email' => 'required|valid_email|is_unique[users.email]',
-                'password' => 'required|min_length[6]',
-                'password_confirm' => 'matches[password]',
-                'photo' => 'uploaded[photo]|is_image[photo]|max_size[photo,2048]'
-            ];
-    
-            $messages = [
-                'prenom' => ['required' => 'Le prénom est requis.'],
-                'nom' => ['required' => 'Le nom est requis.'],
-                'email' => [
-                    'required' => 'L’adresse e-mail est requise.',
-                    'valid_email' => 'L’adresse e-mail n’est pas valide.',
-                    'is_unique' => 'Cette adresse e-mail est déjà utilisée.'
-                ],
-                'password' => [
-                    'required' => 'Le mot de passe est requis.',
-                    'min_length' => 'Le mot de passe doit contenir au moins 6 caractères.'
-                ],
-                'password_confirm' => [
-                    'matches' => 'La confirmation du mot de passe ne correspond pas.'
-                ],
-                'photo' => [
-                    'uploaded' => 'Veuillez ajouter une photo.',
-                    'is_image' => 'Le fichier doit être une image.',
-                    'max_size' => 'L’image est trop lourde (max 2 Mo).'
-                ]
-            ];
-    
-            if (!$this->validate($validationRules, $messages)) {
-                return view('auth/register_view', [
-                    'validation' => $this->validator,
-                    'clubs' => $clubs
-                ]);
-            }
-    
-            // Gestion du club : sélection ou nouveau
-            $newClubName = trim($this->request->getPost('new_club'));
-            $clubId = $this->request->getPost('club_id');
-    
-            if (!$clubId && $newClubName !== '') {
-                $clubId = $clubModel->insert([
-                    'nom' => $newClubName,
-                    'ville' => null,
-                    'adresse' => null,
-                    'telephone' => null,
-                    'email' => null,
-                    'visible' => 0
-                ]);
-            }
-    
-            // Upload de la photo
-            $photo = $this->request->getFile('photo');
-            $photoName = $photo->getRandomName();
-            $photo->move('public/uploads/users', $photoName);
-    
-            // Insertion en base
-            $userModel = new \App\Models\UserModel();
-            $userModel->save([
-                'prenom' => $this->request->getPost('prenom'),
-                'nom' => $this->request->getPost('nom'),
-                'email' => $this->request->getPost('email'),
-                'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-                'photo' => $photoName,
-                'ceinture' => $this->request->getPost('ceinture'),
-                'club_id' => $clubId,
-                'role' => 'licencié'
-            ]);
-    
-            // Connexion automatique
-            session()->set([
-                'user_id' => $userModel->insertID(),
-                'prenom' => $this->request->getPost('prenom'),
-                'role' => 'licencié',
-                'isLoggedIn' => true
-            ]);
-    
-            return redirect()->to('auth/espace-licencie')->with('success', 'Bienvenue dans ton espace licencié !');
-        }
-    
-        return view('auth/register_view', ['clubs' => $clubs]);
-    }
-    
-
-    
-    public function espaceLicencie()
-    {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('/connexion');
-        }
-    
-        $userModel = new \App\Models\UserModel();
-        $user = $userModel
-            ->select('users.*, clubs.nom AS club_nom')
-            ->join('clubs', 'clubs.id = users.club_id', 'left')
-            ->find(session()->get('user_id'));
-    
-        return view('auth/espace_licencie', ['user' => $user]);
-    }
-    
-
-    public function deconnexion()
-    {
-        session()->destroy();
-        return redirect()->to('/connexion');
+        $session = session();           // Récupère la session active
+        $session->destroy();           // Détruit la session
+        return redirect()->to('/login'); // Redirige vers la page de connexion
     }
 }
