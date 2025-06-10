@@ -16,7 +16,7 @@
     <?php endif; ?>
 
     <!-- Formulaire de connexion -->
-    <form action="<?= base_url('login') ?>" method="post">
+    <form action="<?= base_url('connexion') ?>" method="post">
       <!-- Champ de l'email -->
       <input type="email" name="email" placeholder="Adresse e-mail" required>
 

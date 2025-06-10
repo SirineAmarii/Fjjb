@@ -20,7 +20,7 @@ class Competitions extends BaseController
 
 
     
-        $data['competitions'] = $builder->orderBy('date', 'DESC')->findAll();
+        $data['competitions'] = $builder->orderBy('event_date', 'DESC')->findAll();
         return view('index/competitions_view', $data);
     }
 
@@ -42,7 +42,7 @@ public function search()
                 ->groupEnd();
     }
 
-    $competitions = $builder->orderBy('date', 'DESC')->findAll();
+    $competitions = $builder->orderBy('event_date', 'DESC')->findAll();
     return view('index/_competitions_list', ['competitions' => $competitions]);
 
 }

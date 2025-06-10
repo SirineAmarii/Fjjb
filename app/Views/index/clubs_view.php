@@ -14,11 +14,11 @@
   <div class="clubs-grid">
     <?php foreach ($clubs as $club): ?>
       <div class="club-card">
-        <h3><?= esc($club['nom']) ?></h3>
-        <p class="city"><?= esc($club['ville']) ?: 'Ville non précisée' ?></p>
-        <p><i class="fas fa-map-marker-alt"></i> <?= esc($club['adresse']) ?: 'Adresse non précisée' ?></p>
-        <?php if ($club['telephone']): ?>
-          <p><i class="fas fa-phone"></i> <?= esc($club['telephone']) ?></p>
+        <h3><?= esc($club['name']) ?></h3>
+        <p class="city"><?= esc($club['city']) ?: 'Ville non précisée' ?></p>
+        <p><i class="fas fa-map-marker-alt"></i> <?= esc($club['address']) ?: 'Adresse non précisée' ?></p>
+        <?php if ($club['phone']): ?>
+          <p><i class="fas fa-phone"></i> <?= esc($club['phone']) ?></p>
         <?php endif; ?>
         <?php if ($club['email']): ?>
           <p><i class="fas fa-envelope"></i> <?= esc($club['email']) ?></p>

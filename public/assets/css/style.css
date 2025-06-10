@@ -986,4 +986,153 @@ nav a {
   }
 }
 
+/* =============================
+   TABLEAUX ADMIN - DASHBOARD
+   ============================= */
 
+.admin-table {
+  margin-top: 2rem;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-table thead {
+  background-color: var(--bleu-marine);
+  color: var(--blanc);
+  text-align: left;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
+.admin-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.admin-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.admin-table th {
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.admin-table td {
+  color: var(--text);
+}
+
+/*********** Formulaire Edition / Suppression ***********/
+
+.form-vertical {
+  margin-top: 2rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="file"],
+select {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+/*********** Boutons d’action ***********/
+
+.btn-action {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-right: 0.4rem;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-action.blue {
+  background-color: var(--bleu-marine);
+  color: var(--blanc);
+}
+
+.btn-action.red {
+  background-color: var(--rouge);
+  color: var(--blanc);
+}
+
+/*********** Bouton retour ***********/
+
+.btn-retour-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.btn-retour {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--bleu-marine);
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-retour:hover {
+  background-color: var(--bleu-hover); /* Ajoute cette variable dans :root si besoin */
+}
+
+/*********** Table responsive ***********/
+
+@media (max-width: 768px) {
+  .admin-table table {
+    font-size: 0.9rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 0.8rem;
+  }
+}

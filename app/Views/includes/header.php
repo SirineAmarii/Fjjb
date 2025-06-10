@@ -52,7 +52,9 @@
     <!-- Affichage conditionnel selon la connexion de l'utilisateur -->
     <?php if (session()->get('isLoggedIn')): ?>
       <!-- Si connecté : bouton vers l'espace licencié -->
-      <a href="<?= base_url('user_dashboard') ?>" class="btn-connexion">Espace licencié</a>
+     
+      <a href="<?= base_url('user/dashboard') ?>" class="btn-connexion">Espace licencié</a>
+
     <?php else: ?>
       <!-- Si non connecté : bouton de connexion -->
       <a href="<?= base_url('login') ?>" class="btn-connexion">Connexion</a>
