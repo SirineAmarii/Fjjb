@@ -2,7 +2,7 @@
 
 <section class="dashboard-page">
   <div class="dashboard-box">
-    <h2>Modifier le club</h2>
+    <h2>Ajouter un nouveau club</h2>
 
     <?php if (session()->getFlashdata('error')) : ?>
       <div class="alert red">
@@ -12,42 +12,42 @@
       </div>
     <?php endif; ?>
 
-    <form action="<?= base_url('admin/clubs/update/' . $club['id_club']) ?>" method="post" class="form-vertical">
+    <form action="<?= base_url('admin/clubs/create') ?>" method="post" class="form-vertical">
       <div class="form-group">
         <label for="name">Nom du club</label>
-        <input type="text" name="name" value="<?= old('name', $club['name']) ?>" required>
+        <input type="text" name="name" value="<?= old('name') ?>" required>
       </div>
 
       <div class="form-group">
         <label for="city">Ville</label>
-        <input type="text" name="city" value="<?= old('city', $club['city']) ?>" required>
+        <input type="text" name="city" value="<?= old('city') ?>" required>
       </div>
 
       <div class="form-group">
         <label for="address">Adresse</label>
-        <input type="text" name="address" value="<?= old('address', $club['address']) ?>">
+        <input type="text" name="address" value="<?= old('address') ?>">
       </div>
 
       <div class="form-group">
         <label for="phone">Téléphone</label>
-        <input type="text" name="phone" value="<?= old('phone', $club['phone']) ?>">
+        <input type="text" name="phone" value="<?= old('phone') ?>">
       </div>
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" name="email" value="<?= old('email', $club['email']) ?>">
+        <input type="email" name="email" value="<?= old('email') ?>">
       </div>
 
       <div class="form-group">
         <label for="visible">Visible ?</label>
         <select name="visible">
-          <option value="1" <?= old('visible', $club['visible']) == 1 ? 'selected' : '' ?>>Oui</option>
-          <option value="0" <?= old('visible', $club['visible']) == 0 ? 'selected' : '' ?>>Non</option>
+          <option value="1" <?= old('visible') === '1' ? 'selected' : '' ?>>Oui</option>
+          <option value="0" <?= old('visible') === '0' ? 'selected' : '' ?>>Non</option>
         </select>
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn blue">Enregistrer</button>
+        <button type="submit" class="btn blue">Ajouter</button>
         <a href="<?= base_url('admin/clubs') ?>" class="btn light">Annuler</a>
       </div>
     </form>

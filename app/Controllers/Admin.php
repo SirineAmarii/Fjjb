@@ -29,28 +29,74 @@ class Admin extends BaseController
 
     }
 
-    public function manageUsers()
+
+/**
+ * Gestion des compétitions
+ */
+
+public function addCompetition()
 {
     if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
         return redirect()->to('/');
     }
 
-    $userModel = new \App\Models\UserModel();
-    $users = $userModel->findAll();
-
-    return view('admin/users_list', ['users' => $users]);
+    return view('admin/add_competition');
 }
 
-public function manageClubs()
+public function createCompetition()
 {
-    if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
-        return redirect()->to('/');
+    helper(['form']);
+
+    $validation = \Config\Services::validation();
+
+    $rules = [
+        'name'       => 'required',
+        'event_date' => 'required|valid_date',
+        'city'       => 'required',
+        'venue'      => 'permit_empty',
+        'category'   => 'permit_empty',
+        'visible'    => 'required|in_list[0,1]',
+        'image'      => 'uploaded[image]|is_image[image]|max_size[image,2048]'
+    ];
+
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('error', $validation->getErrors());
     }
 
-    $clubModel = new \App\Models\ClubModel();
-    $clubs = $clubModel->findAll();
+    // gestion de l'image
+    $image = $this->request->getFile('image');
+    $imageName = null;
 
-    return view('admin/clubs_list', ['clubs' => $clubs]);
+    if ($image && $image->isValid() && !$image->hasMoved()) {
+        $imageName = $image->getRandomName();
+        $image->move('public/assets/images/competitions', $imageName);
+    }
+
+    $model = new \App\Models\CompetitionModel();
+    $model->save([
+        'name'       => $this->request->getPost('name'),
+        'event_date' => $this->request->getPost('event_date'),
+        'city'       => $this->request->getPost('city'),
+        'venue'      => $this->request->getPost('venue'),
+        'category'   => $this->request->getPost('category'),
+        'visible'    => $this->request->getPost('visible'),
+        'image'      => $imageName
+    ]);
+
+    return redirect()->to('admin/competitions')->with('success', 'Compétition ajoutée avec succès.');
+}
+
+
+public function editCompetition($id)
+{
+    $competitionModel = new \App\Models\CompetitionModel();
+    $competition = $competitionModel->find($id);
+
+    if (!$competition) {
+        return redirect()->to('admin/competitions')->with('error', 'Compétition introuvable.');
+    }
+
+    return view('admin/edit_competition', ['competition' => $competition]);
 }
 
 public function manageCompetitions()
@@ -63,6 +109,72 @@ public function manageCompetitions()
     $competitions = $competitionModel->findAll();
 
     return view('admin/competitions_list', ['competitions' => $competitions]);
+}
+
+public function updateCompetition($id)
+{
+    $competitionModel = new \App\Models\CompetitionModel();
+    $competition = $competitionModel->find($id);
+
+    if (!$competition) {
+        return redirect()->to('admin/competitions')->with('error', 'Compétition introuvable.');
+    }
+
+    $data = [
+        'name'       => $this->request->getPost('nom'),
+        'event_date' => $this->request->getPost('event_date'),
+        'city'       => $this->request->getPost('city'),
+        'venue'      => $this->request->getPost('venue'),
+        'category'   => $this->request->getPost('category'),
+        'visible'    => $this->request->getPost('visible'),
+    ];
+
+    // image si uploadée
+    $image = $this->request->getFile('image');
+    if ($image && $image->isValid() && !$image->hasMoved()) {
+        $newName = $image->getRandomName();
+        $image->move('public/assets/images/competitions', $newName);
+        $data['image'] = $newName;
+    }
+
+    $competitionModel->update($id, $data);
+
+    return redirect()->to('admin/competitions')->with('success', 'Compétition mise à jour.');
+}
+
+public function deleteCompetition($id)
+{
+    $competitionModel = new \App\Models\CompetitionModel();
+    $competition = $competitionModel->find($id);
+
+    if (!$competition) {
+        return redirect()->to('admin/competitions')->with('error', 'Compétition introuvable.');
+    }
+
+    // Supprimer l’image si elle existe
+    if (!empty($competition['image']) && file_exists('public/assets/images/competitions/' . $competition['image'])) {
+        unlink('public/assets/images/competitions/' . $competition['image']);
+    }
+
+    $competitionModel->delete($id);
+
+    return redirect()->to('admin/competitions')->with('success', 'Compétition supprimée avec succès.');
+}
+
+/**
+ * Gestion des utilisateurs
+ */
+
+    public function manageUsers()
+{
+    if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
+        return redirect()->to('/');
+    }
+
+    $userModel = new \App\Models\UserModel();
+    $users = $userModel->findAll();
+
+    return view('admin/users_list', ['users' => $users]);
 }
 
 public function editUser($id)
@@ -92,13 +204,13 @@ public function updateUser($id)
 
     // Règles de validation
     $rules = [
-        'prenom'   => 'required',
-        'nom'      => 'required',
-        'ceinture' => 'required',
-        'role'     => 'required'
+        'first_name' => 'required',
+        'last_name'  => 'required',
+        'belt'       => 'required',
+        'role'       => 'required'
     ];
 
-    // Appliquer is_unique seulement si l’email est modifié
+    // Appliquer is_unique sur email uniquement si modifié
     if ($email !== $user['email']) {
         $rules['email'] = "required|valid_email|is_unique[users.email,id_user,{$id}]";
     } else {
@@ -122,18 +234,90 @@ public function updateUser($id)
         }
     }
 
-    // Mise à jour
-    $userModel->update($id, [
-        'prenom'   => $this->request->getPost('prenom'),
-        'nom'      => $this->request->getPost('nom'),
-        'email'    => $email,
-        'ceinture' => $this->request->getPost('ceinture'),
-        'role'     => $this->request->getPost('role'),
-        'photo'    => $photoName
-    ]);
+    // Mise à jour des données
+    $userModel->where('id_user', $id)->set([
+        'first_name' => $this->request->getPost('first_name'),
+        'last_name'  => $this->request->getPost('last_name'),
+        'email'      => $email,
+        'belt'       => $this->request->getPost('belt'),
+        'role'       => $this->request->getPost('role'),
+        'photo'      => $photoName
+    ])->update();
 
     return redirect()->to('admin/users')->with('success', 'Utilisateur mis à jour avec succès.');
 }
+
+
+public function createUser()
+{
+    helper(['form']);
+
+    $validation = \Config\Services::validation();
+
+    // Règles + labels dans un seul tableau propre
+    $rules = [
+        'first_name' => [
+            'rules' => 'required',
+            'label' => 'prénom'
+        ],
+        'last_name' => [
+            'rules' => 'required',
+            'label' => 'nom'
+        ],
+        'email' => [
+            'rules' => 'required|valid_email|is_unique[users.email]',
+            'label' => 'adresse e-mail'
+        ],
+        'password' => [
+            'rules' => 'required|min_length[6]',
+            'label' => 'mot de passe'
+        ],
+        'belt' => [
+            'rules' => 'required',
+            'label' => 'ceinture'
+        ],
+        'role' => [
+            'rules' => 'required',
+            'label' => 'rôle'
+        ]
+    ];
+
+    // Appliquer les règles
+    $validation->setRules($rules);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return redirect()->back()->withInput()->with('error', $validation->getErrors());
+    }
+
+    // Gestion de la photo
+    $photo = $this->request->getFile('photo');
+    $photoName = null;
+
+    if ($photo && $photo->isValid() && !$photo->hasMoved()) {
+        $photoName = $photo->getRandomName();
+        $photo->move('public/uploads/users', $photoName);
+    }
+
+    // Insertion utilisateur
+    $userModel = new \App\Models\UserModel();
+    $userModel->save([
+        'first_name' => $this->request->getPost('first_name'),
+        'last_name'  => $this->request->getPost('last_name'),
+        'email'      => $this->request->getPost('email'),
+        'password'   => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+        'belt'       => $this->request->getPost('belt'),
+        'role'       => $this->request->getPost('role'),
+        'photo'      => $photoName,
+    ]);
+
+    return redirect()->to('admin/users')->with('success', 'Nouvel utilisateur ajouté.');
+}
+
+public function addUser()
+{
+    return view('admin/add_user');
+}
+
 
 public function deleteUser($id)
 {
@@ -147,6 +331,113 @@ public function deleteUser($id)
     return redirect()->to('admin/users')->with('error', 'Utilisateur introuvable');
 }
 
+/**
+ * Gestion des clubs
+ */
+
+public function manageClubs()
+{
+    if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
+        return redirect()->to('/');
+    }
+
+    $clubModel = new \App\Models\ClubModel();
+    $clubs = $clubModel->findAll();
+
+    return view('admin/clubs_list', ['clubs' => $clubs]);
+}
+
+public function createClub()
+{
+    helper(['form']);
+
+    $rules = [
+        'name'     => 'required',
+        'city'     => 'required',
+        'address'  => 'permit_empty',
+        'phone'    => 'permit_empty',
+        'email'    => 'permit_empty|valid_email',
+        'visible'  => 'required|in_list[0,1]',
+    ];
+
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
+    }
+
+    $clubModel = new \App\Models\ClubModel();
+    $clubModel->save([
+        'name'     => $this->request->getPost('name'),
+        'city'     => $this->request->getPost('city'),
+        'address'  => $this->request->getPost('address'),
+        'phone'    => $this->request->getPost('phone'),
+        'email'    => $this->request->getPost('email'),
+        'visible'  => $this->request->getPost('visible'),
+    ]);
+
+    return redirect()->to('admin/clubs')->with('success', 'Club ajouté avec succès.');
+}
+
+public function addClub()
+{
+    return view('admin/add_club');
+}
+
+public function editClub($id)
+{
+    $clubModel = new \App\Models\ClubModel();
+    $club = $clubModel->find($id);
+
+    if (!$club) {
+        return redirect()->to('admin/clubs')->with('error', 'Club introuvable.');
+    }
+
+    return view('admin/edit_club', ['club' => $club]);
+}
+
+public function updateClub($id)
+{
+    helper(['form']);
+
+    $validation = \Config\Services::validation();
+
+    $rules = [
+        'name'      => 'required',
+        'city'    => 'required',
+        'email'    => 'permit_empty|valid_email',
+        'phone'=> 'permit_empty',
+        'address'  => 'permit_empty',
+        'visible'  => 'required|in_list[0,1]',
+    ];
+
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('error', $validation->getErrors());
+    }
+
+    $clubModel = new \App\Models\ClubModel();
+    $clubModel->update($id, [
+        'name'       => $this->request->getPost('name'),
+        'city'      => $this->request->getPost('city'),
+        'address'   => $this->request->getPost('address'),
+        'phone' => $this->request->getPost('phone'),
+        'email'     => $this->request->getPost('email'),
+        'visible'   => $this->request->getPost('visible'),
+    ]);
+
+    return redirect()->to('admin/clubs')->with('success', 'Club modifié avec succès.');
+}
+public function deleteClub($id)
+{
+    $clubModel = new \App\Models\ClubModel();
+    $club = $clubModel->find($id);
+
+    if (!$club) {
+        return redirect()->to('admin/clubs')->with('error', 'Club introuvable.');
+    }
+
+    $clubModel->delete($id);
+
+    return redirect()->to('admin/clubs')->with('success', 'Club supprimé avec succès.');
+}
 
 }
 

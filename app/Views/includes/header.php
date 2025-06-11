@@ -53,7 +53,17 @@
     <?php if (session()->get('isLoggedIn')): ?>
       <!-- Si connecté : bouton vers l'espace licencié -->
      
-      <a href="<?= base_url('user/dashboard') ?>" class="btn-connexion">Espace licencié</a>
+      
+
+      <?php if (session()->get('isLoggedIn')): ?>
+    <?php if (session()->get('role') === 'admin'): ?>
+        <a href="<?= base_url('admin/dashboard') ?>" class="btn-connexion">Espace admin</a>
+    <?php else: ?>
+        <a href="<?= base_url('user_dashboard') ?>" class="btn-connexion">Espace licencié</a>
+    <?php endif; ?>
+<?php else: ?>
+    <a href="<?= base_url('login') ?>" class="btn-connexion">Connexion</a>
+<?php endif; ?>
 
     <?php else: ?>
       <!-- Si non connecté : bouton de connexion -->

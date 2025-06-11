@@ -7,10 +7,10 @@ use CodeIgniter\Model;
 class ClubModel extends Model
 {
     protected $table = 'clubs';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_club';
 
     protected $allowedFields = [
-        'nom', 'ville', 'adresse', 'telephone', 'email', 'visible', 'created_at', 'updated_at'
+        'name', 'city', 'address', 'phone', 'email', 'visible', 'created_at', 'updated_at'
     ];
 
     protected $returnType = 'array';

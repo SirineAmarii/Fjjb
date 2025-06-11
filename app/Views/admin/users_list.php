@@ -1,8 +1,24 @@
 <?= view('includes/header') ?>
 
+<?php if (session()->getFlashdata('success')) : ?>
+  <div class="alert success">
+    <?= esc(session()->getFlashdata('success')) ?>
+  </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')) : ?>
+  <div class="alert red">
+    <?= esc(session()->getFlashdata('error')) ?>
+  </div>
+<?php endif; ?>
+
+
 <div class="btn-retour-container">
   <a href="<?= base_url('admin/dashboard') ?>" class="btn-retour">← Retour au tableau de bord</a>
+  <a href="<?= base_url('admin/users/add') ?>" class="btn red">Ajouter un utilisateur</a>
 </div>
+
+
 
 
 <section class="dashboard">
@@ -12,7 +28,7 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          
           <th>Nom</th>
           <th>Prénom</th>
           <th>Email</th>
@@ -23,7 +39,7 @@
       <tbody>
         <?php foreach ($users as $user): ?>
           <tr>
-            <td><?= $user['id_user'] ?></td>
+            
             <td><?= esc($user['first_name']) ?></td>
             <td><?= esc($user['last_name']) ?></td>
             <td><?= esc($user['email']) ?></td>

@@ -1,7 +1,21 @@
 <?= view('includes/header') ?>
 
+<?php if (session()->getFlashdata('success')) : ?>
+  <div class="alert success">
+    <?= esc(session()->getFlashdata('success')) ?>
+  </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')) : ?>
+  <div class="alert red">
+    <?= esc(session()->getFlashdata('error')) ?>
+  </div>
+<?php endif; ?>
+
+
 <div class="btn-retour-container">
   <a href="<?= base_url('admin/dashboard') ?>" class="btn-retour">← Retour au tableau de bord</a>
+    <a href="<?= base_url('admin/club/add') ?>" class="btn red">Ajouter un club</a>
 </div>
 
 <section class="dashboard">
@@ -11,7 +25,7 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+        
           <th>Nom</th>
           <th>Ville</th>
           <th>Adresse</th>
@@ -23,7 +37,7 @@
       <tbody>
         <?php foreach ($clubs as $club): ?>
           <tr>
-            <td><?= $club['id_club'] ?></td>
+            
             <td><?= esc($club['name']) ?></td>
             <td><?= esc($club['city']) ?: '—' ?></td>
             <td><?= esc($club['address']) ?: '—' ?></td>
@@ -32,8 +46,8 @@
             <td><?= $club['visible'] ? 'Oui' : 'Non' ?></td>
 
             <td>
-              <a href="<?= base_url('admin/users/edit/' . $club['id_club']) ?>" class="btn-action blue">Modifier</a>
-              <a href="<?= base_url('admin/users/delete/' . $club['id_club']) ?>" class="btn-action red" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</a>
+              <a href="<?= base_url('admin/club/edit/' . $club['id_club']) ?>" class="btn-action blue">Modifier</a>
+              <a href="<?= base_url('admin/club/delete/' . $club['id_club']) ?>" class="btn-action red" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</a>
             </td>
           </tr>
         <?php endforeach; ?>

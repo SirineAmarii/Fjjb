@@ -31,28 +31,7 @@ class Clubs extends BaseController
     }
 
 
-    public function searchAjax()
-{
-    if (!$this->request->isAJAX()) {
-        return redirect()->to('/clubs');
-    }
 
-    $query = $this->request->getGet('q');
-    $clubModel = new \App\Models\ClubModel();
-
-    $builder = $clubModel->where('visible', 1);
-
-    if ($query) {
-        $builder->groupStart()
-            ->like('ville', $query)
-            ->orLike('nom', $query)
-            ->groupEnd();
-    }
-
-    $clubs = $builder->orderBy('date', 'DESC')->findAll();
-
-    return view('clubs/_clubs_list', ['clubs' => $clubs]);
-}
 
     
 }

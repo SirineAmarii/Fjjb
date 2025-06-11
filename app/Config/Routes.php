@@ -21,6 +21,11 @@ $routes->get('user/dashboard', 'Auth::userDashboard');
 $routes->get('deconnexion', 'Auth::logout');
 
 
+$routes->get('login', function() {
+    return redirect()->to('connexion');
+});
+
+
 $routes->get('admin/dashboard', 'Admin::dashboard');
 $routes->get('admin/users', 'Admin::manageUsers');
 $routes->get('admin/clubs', 'Admin::manageClubs');
@@ -28,11 +33,34 @@ $routes->get('admin/competitions', 'Admin::manageCompetitions');
 $routes->get('admin/users/edit/(:num)', 'Admin::editUser/$1');
 $routes->post('admin/users/update/(:num)', 'Admin::updateUser/$1');
 $routes->get('admin/users/delete/(:num)', 'Admin::deleteUser/$1');
+$routes->get('admin/users/add', 'Admin::addUser');
+$routes->post('admin/users/create', 'Admin::createUser');
 
 
 
 
- $routes->get('competitions/search', 'Competitions::search');
+
+$routes->get('competitions/search', 'Competitions::search');
+$routes->get('admin/competition/edit/(:num)', 'Admin::editCompetition/$1');
+$routes->post('admin/competitions/update/(:num)', 'Admin::updateCompetition/$1');
+$routes->get('admin/competition/delete/(:num)', 'Admin::deleteCompetition/$1');
+$routes->get('admin/competition/add', 'Admin::addCompetition');
+$routes->post('admin/competition/create', 'Admin::createCompetition');
+
+
+
+
+
+
+
+$routes->get('admin/club/edit/(:num)', 'Admin::editClub/$1');
+$routes->post('admin/clubs/update/(:num)', 'Admin::updateClub/$1');
+$routes->get('admin/clubs/add', 'Admin::addClub');
+$routes->post('admin/clubs/create', 'Admin::createClub');
+$routes->get('admin/club/delete/(:num)', 'Admin::deleteClub/$1');
+
+
+
 
 
 $routes->get('mentions-legales', 'Pages::mentions');

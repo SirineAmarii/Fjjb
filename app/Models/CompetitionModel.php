@@ -7,18 +7,18 @@ use CodeIgniter\Model;
 class CompetitionModel extends Model
 {
     protected $table = 'competitions';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_competition';
 
     protected $allowedFields = [
-        'nom',
-        'date',
-        'ville',
-        'lieu',
-        'categorie',
+        'name',
+        'event_date',
+        'city',
+        'venue',
+        'category',
         'image',
         'visible'
     ];
 
     protected $returnType = 'array';
-    protected $useTimestamps = false; // ou true si tu as `created_at` / `updated_at`
+    protected $useTimestamps = false; 
 }
