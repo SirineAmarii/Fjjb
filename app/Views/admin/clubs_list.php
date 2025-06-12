@@ -15,7 +15,7 @@
 
 <div class="btn-retour-container">
   <a href="<?= base_url('admin/dashboard') ?>" class="btn-retour">← Retour au tableau de bord</a>
-    <a href="<?= base_url('admin/club/add') ?>" class="btn red">Ajouter un club</a>
+    <a href="<?= base_url('admin/clubs/add') ?>" class="btn red">Ajouter un club</a>
 </div>
 
 <section class="dashboard">

@@ -439,8 +439,10 @@ public function deleteClub($id)
     return redirect()->to('admin/clubs')->with('success', 'Club supprimé avec succès.');
 }
 
-}
 
+
+
+}
 
 
 

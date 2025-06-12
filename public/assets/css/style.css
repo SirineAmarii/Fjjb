@@ -1102,6 +1102,13 @@ select {
   color: var(--blanc);
 }
 
+.user-actions {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+  align-items: right;
+}
+
 /*********** Bouton retour ***********/
 
 .btn-retour-container {

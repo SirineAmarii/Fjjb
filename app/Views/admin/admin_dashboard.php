@@ -9,7 +9,7 @@
       <a href="<?= base_url('admin/competitions') ?>" class="btn">Gérer les compétitions</a>
       <a href="<?= base_url('admin/clubs') ?>" class="btn">Gérer les clubs</a>
       <a href="<?= base_url('admin/users') ?>" class="btn">Gérer les utilisateurs</a>
-      <a href="<?= base_url('logout') ?>" class="btn red">Déconnexion</a>
+      
     </div>
   </div>
 </section>

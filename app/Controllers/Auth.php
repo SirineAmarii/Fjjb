@@ -51,7 +51,7 @@ class Auth extends BaseController
                 } elseif ($user['role'] === 'club') {
                     return redirect()->to('/club/dashboard');
                 } else {
-                    return redirect()->to('espace-licencie');
+                    return redirect()->to('user-dashboard');
                 }
             } else {
                 // Mot de passe incorrect : message d'erreur
@@ -64,37 +64,14 @@ class Auth extends BaseController
             return redirect()->to('/login');
         }
     }
-//Permets d'avoir accès à l'espace licencié 
-    public function dashboard()
-{
-    if (!session()->get('isLoggedIn') || session()->get('role') !== 'licencié') {
-        return redirect()->to('/login');
-    }
 
-    $data = [
-        'user' => session() // pour accéder aux données comme le prénom, l'email, etc.
-    ];
-
-    return view('auth/user_dashboard', $data);
-}
-
-public function userDashboard()
-{
-    if (!session()->get('isLoggedIn') || session()->get('role') !== 'licencié') {
-        return redirect()->to('/');
-    }
-
-    $userModel = new \App\Models\UserModel();
-    $user = $userModel->find(session()->get('user_id'));
-
-    return view('auth/user_dashboard', ['user' => $user]);
-}
-
-    // Déconnecte l'utilisateur et détruit la session
+ // Déconnecte l'utilisateur et détruit la session
     public function logout()
     {
         $session = session();           // Récupère la session active
         $session->destroy();           // Détruit la session
         return redirect()->to('/login'); // Redirige vers la page de connexion
     }
+
+
 }
