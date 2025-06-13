@@ -24,6 +24,7 @@ class UserController extends BaseController
             return redirect()->to('/')->with('error', 'Utilisateur introuvable');
         }
 
+        
         return view('user/user_dashboard', ['user' => $user]);
     }
 
@@ -74,4 +75,42 @@ class UserController extends BaseController
 
         return redirect()->to('user-dashboard')->with('success', 'Profil mis à jour.');
     }
+
+    public function changePassword()
+{
+    if (!session()->get('isLoggedIn')) {
+        return redirect()->to('/login');
+    }
+
+    return view('user/change_password');
+}
+
+public function updatePassword()
+{
+    helper(['form']);
+
+    $rules = [
+        'current_password' => 'required',
+        'new_password' => 'required|min_length[6]',
+        'confirm_password' => 'required|matches[new_password]'
+    ];
+
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
+    }
+
+    $userModel = new \App\Models\UserModel();
+    $user = $userModel->find(session()->get('id_user'));
+
+    if (!password_verify($this->request->getPost('current_password'), $user['password'])) {
+        return redirect()->back()->withInput()->with('error', ['current_password' => 'Mot de passe actuel incorrect.']);
+    }
+
+    $userModel->update(session()->get('id_user'), [
+        'password' => password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT)
+    ]);
+
+    return redirect()->to('user-dashboard')->with('success', 'Mot de passe mis à jour avec succès.');
+}
+
 }

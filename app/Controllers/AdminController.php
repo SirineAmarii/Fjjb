@@ -6,7 +6,7 @@ use App\Models\UserModel;
 use App\Models\CompetitionModel;
 use App\Models\ClubModel;
 
-class Admin extends BaseController
+class AdminController extends BaseController
 {
     public function dashboard()
     {

@@ -7,57 +7,67 @@ use CodeIgniter\Router\RouteCollection;
  */
 /*Index*/
 
-$routes->get('/', 'Home::index');
-$routes->get('/competitions', 'Competitions::index');
-$routes->get('/clubs', 'Clubs::index');
-$routes->get('/resultats', 'Results::index');
+$routes->get('/', 'HomeController::index');
+$routes->get('/competitions', 'CompetitionController::index');
+$routes->get('/clubs', 'ClubController::index');
+$routes->get('/resultats', 'ResultController::index');
 
 
-$routes->match(['get', 'post'], 'inscription', 'Auth::inscription');
-$routes->get('connexion', 'Auth::login');
-$routes->post('connexion', 'Auth::loginPost');
-$routes->match(['get', 'post'], 'connexion', 'Auth::login');
 
-$routes->get('logout', 'Auth::logout');
+$routes->get('connexion', 'AuthController::login');
+$routes->post('connexion', 'AuthController::loginPost');
+$routes->match(['get', 'post'], 'connexion', 'AuthControllerController::login');
+
+$routes->get('deconnexion', 'AuthController::logout');
 
 
-$routes->get('login', function() {
-    return redirect()->to('connexion');
-});
+
+
+$routes->get('inscription', 'AuthController::chooseRegistration');
+$routes->get('inscription-licencie', 'AuthController::registerUser'); 
+$routes->post('inscription-licencie', 'AuthController::createUser');
+$routes->get('inscription-club', 'AuthController::registerClub');
+$routes->post('inscription-club', 'AuthController::createClub');
+$routes->match(['get', 'post'], 'inscription-club', 'Auth::createClub');
+
+
 
 $routes->get('user-dashboard', 'UserController::userDashboard');
 $routes->get('user-edit', 'UserController::editProfile');
-$routes->post('user-update', 'UserController::updateProfile');
-
-
-$routes->get('admin-dashboard', 'Admin::dashboard');
-$routes->get('admin/users', 'Admin::manageUsers');
-$routes->get('admin/clubs', 'Admin::manageClubs');
-$routes->get('admin/competitions', 'Admin::manageCompetitions');
-$routes->get('admin/users/edit/(:num)', 'Admin::editUser/$1');
-$routes->post('admin/users/update/(:num)', 'Admin::updateUser/$1');
-$routes->get('admin/users/delete/(:num)', 'Admin::deleteUser/$1');
-$routes->get('admin/users/add', 'Admin::addUser');
-$routes->post('admin/users/create', 'Admin::createUser');
-
-$routes->get('admin/competition/edit/(:num)', 'Admin::editCompetition/$1');
-$routes->post('admin/competitions/update/(:num)', 'Admin::updateCompetition/$1');
-$routes->get('admin/competition/delete/(:num)', 'Admin::deleteCompetition/$1');
-$routes->get('admin/competition/add', 'Admin::addCompetition');
-$routes->post('admin/competition/create', 'Admin::createCompetition');
-
-$routes->get('admin/club/edit/(:num)', 'Admin::editClub/$1');
-$routes->post('admin/clubs/update/(:num)', 'Admin::updateClub/$1');
-$routes->get('admin/clubs/add', 'Admin::addClub');
-$routes->post('admin/clubs/create', 'Admin::createClub');
-$routes->post('admin/clubs/store', 'Admin::storeClub');
-$routes->get('admin/club/delete/(:num)', 'Admin::deleteClub/$1');
+$routes->post('user-edit', 'UserController::updateProfile');
+$routes->get('user-password', 'UserController::changePassword');
+$routes->post('user-password', 'UserController::updatePassword');
 
 
 
+$routes->get('admin-dashboard', 'AdminController::dashboard');
+$routes->get('admin/users', 'AdminController::manageUsers');
+$routes->get('admin/clubs', 'AdminController::manageClubs');
+$routes->get('admin/competitions', 'AdminController::manageCompetitions');
+$routes->get('admin/users/edit/(:num)', 'AdminController::editUser/$1');
+$routes->post('admin/users/update/(:num)', 'AdminController::updateUser/$1');
+$routes->get('admin/users/delete/(:num)', 'AdminController::deleteUser/$1');
+$routes->get('admin/users/add', 'AdminController::addUser');
+$routes->post('admin/users/create', 'AdminController::createUser');
+
+$routes->get('admin/competition/edit/(:num)', 'AdminController::editCompetition/$1');
+$routes->post('admin/competitions/update/(:num)', 'AdminController::updateCompetition/$1');
+$routes->get('admin/competition/delete/(:num)', 'AdminController::deleteCompetition/$1');
+$routes->get('admin/competition/add', 'AdminController::addCompetition');
+$routes->post('admin/competition/create', 'AdminController::createCompetition');
+
+$routes->get('admin/club/edit/(:num)', 'AdminController::editClub/$1');
+$routes->post('admin/clubs/update/(:num)', 'AdminController::updateClub/$1');
+$routes->get('admin/clubs/add', 'AdminController::addClub');
+$routes->post('admin/clubs/create', 'AdminController::createClub');
+$routes->post('admin/clubs/store', 'AdminController::storeClub');
+$routes->get('admin/club/delete/(:num)', 'AdminController::deleteClub/$1');
 
 
-$routes->get('mentions-legales', 'Pages::mentions');
-$routes->get('politique-confidentialite', 'Pages::confidentialite');
-$routes->get('conditions-utilisation', 'Pages::conditions');
-$routes->get('contact', 'Pages::contact');
+
+
+
+$routes->get('mentions-legales', 'PageController::mentions');
+$routes->get('politique-confidentialite', 'PageController::confidentialite');
+$routes->get('conditions-utilisation', 'PageController::conditions');
+$routes->get('contact', 'PageController::contact');

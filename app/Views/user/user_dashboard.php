@@ -1,5 +1,13 @@
 <?= view('includes/header') ?>
 
+ <?php if (session()->getFlashdata('error')) : ?>
+      <div class="alert red">
+        <?php foreach (session()->getFlashdata('error') as $error) : ?>
+          <p><?= esc($error) ?></p>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+
 <?php if (!isset($user)) {
     return redirect()->to('/');
 } ?>
@@ -21,19 +29,15 @@
           <li><strong>Prénom :</strong> <?= esc($user['first_name']) ?></li>
           <li><strong>Email :</strong> <?= esc($user['email']) ?></li>
           <li><strong>Ceinture :</strong> <?= esc($user['belt']) ?></li>
-     
+          <li><strong>Club affilié :</strong> <?= !empty($user['club_name']) ? esc($user['club_name']) : 'Non renseigné' ?></li>
+        </ul>
 
-           <?php if (!empty(session()->get('club_name'))) : ?>
-        <li><strong>Club affilié :</strong> <?= esc($user['club_name'] ?? 'Non renseigné') ?></li>
-      <?php else: ?>
-        <li><strong>Club :</strong> Non renseigné</li>
-      <?php endif; ?>
-           </ul>
       </div>
     </div>
 
     <div class="dashboard-actions">
       <a href="<?= base_url('user-edit') ?>" class="btn">Modifier mon profil</a>
+      <a href="<?= base_url('user-password') ?>" class="btn">Modifier mon mot de passe</a>
       <a href="<?= base_url('logout') ?>" class="btn red">Déconnexion</a>
     </div>
   </div>

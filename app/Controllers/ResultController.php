@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class Results extends BaseController
+class ResultController extends BaseController
 {
     public function index()
     {

@@ -10,8 +10,8 @@
     <div class="footer-column">
       <h4>Liens utiles</h4>
       <ul>
-        <li><a href="<?= base_url('login') ?>">Connexion</a></li> 
-        <li><a href="<?= base_url('register') ?>">Créer un compte</a></li> 
+        <li><a href="<?= base_url('connexion') ?>">Connexion</a></li> 
+        <li><a href="<?= base_url('inscription') ?>">Créer un compte</a></li> 
         <li><a href="<?= base_url('clubs') ?>">Trouver un club</a></li>
         <li><a href="<?= base_url('competitions') ?>">Compétitions</a></li>
         <li><a href="<?= base_url('resultats') ?>">Résultats</a></li>

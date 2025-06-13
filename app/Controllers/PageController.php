@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class Pages extends BaseController
+class PageController extends BaseController
 {
     public function mentions()
     {

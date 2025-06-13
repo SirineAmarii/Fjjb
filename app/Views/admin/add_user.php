@@ -4,6 +4,12 @@
   <div class="dashboard-box">
     <h2>Ajouter un nouvel utilisateur</h2>
 
+    <?php if (session()->getFlashdata('success')) : ?>
+  <div class="alert success">
+    <?= esc(session()->getFlashdata('success')) ?>
+  </div>
+  <?php endif; ?>
+
     <?php if (session()->getFlashdata('error')) : ?>
       <div class="alert red">
         <?php foreach (session()->getFlashdata('error') as $error) : ?>

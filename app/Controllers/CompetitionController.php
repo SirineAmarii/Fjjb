@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class Competitions extends BaseController
+class CompetitionController extends BaseController
 {
     public function index()
     {

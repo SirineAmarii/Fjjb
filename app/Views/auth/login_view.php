@@ -15,6 +15,12 @@
       </div>
     <?php endif; ?>
 
+    <?php if (session()->getFlashdata('success')) : ?>
+  <div class="alert success">
+    <?= esc(session()->getFlashdata('success')) ?>
+  </div>
+<?php endif; ?>
+
     <!-- Formulaire de connexion -->
     <form action="<?= base_url('connexion') ?>" method="post">
       <!-- Champ de l'email -->
@@ -27,10 +33,15 @@
       <button type="submit" class="btn red full">Se connecter</button>
     </form>
 
-    <!-- Lien vers la page d'inscription (attention ici il renvoie vers logout, à corriger si besoin) -->
+    <!-- Lien vers la page d'inscription -->
     <p class="register-link">
-      Pas encore inscrit ? <a href="<?= base_url('register') ?>">Créez un compte</a>
+      Pas encore inscrit ? <a href="<?= base_url('inscription') ?>">Créez un compte</a>
+   
     </p>
+
+   
+      
+  
   </div>
 </section>
 

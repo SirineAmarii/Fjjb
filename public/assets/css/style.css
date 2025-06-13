@@ -77,6 +77,16 @@ nav a {
   font-weight: bold;
 }
 
+.forgot-password {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.forgot-password a {
+  font-size: 0.9rem;
+  color: var(--bleu-marine);
+  text-decoration: underline;
+}
 
 
 

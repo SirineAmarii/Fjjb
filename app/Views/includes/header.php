@@ -47,17 +47,25 @@
 
     
     <!-- Bouton Connexion / Espace Admin / Espace Licencié -->
-     <div class="user-actions">
-    <?php if (session()->get('isLoggedIn')): ?>
-      <?php if (session()->get('role') === 'admin'): ?>
-        <a href="<?= base_url('admin-dashboard') ?>" class="btn-connexion">Espace admin</a>
-      <?php else: ?>
-        <a href="<?= base_url('user-dashboard') ?>" class="btn-connexion">Espace licencié</a>
-      <?php endif; ?>
-      <a href="<?= base_url('logout') ?>" class="btn-connexion red">Déconnexion</a>
-    <?php else: ?>
-      <a href="<?= base_url('login') ?>" class="btn-connexion">Connexion</a>
+<div class="user-actions">
+  <?php if (session()->get('isLoggedIn')): ?>
+
+    <?php if (session()->get('role') === 'admin'): ?>
+      <a href="<?= base_url('admin-dashboard') ?>" class="btn-connexion">Espace admin</a>
+
+    <?php elseif (session()->get('role') === 'licencié'): ?>
+      <a href="<?= base_url('user-dashboard') ?>" class="btn-connexion">Espace licencié</a>
+
+    <?php elseif (session()->get('role') === 'club'): ?>
+      <a href="<?= base_url('club-dashboard') ?>" class="btn-connexion">Espace club</a>
     <?php endif; ?>
-    </div>
+
+    <a href="<?= base_url('deconnexion') ?>" class="btn-connexion red">Déconnexion</a>
+
+  <?php else: ?>
+    <a href="<?= base_url('connexion') ?>" class="btn-connexion">Connexion</a>
+    <a href="<?= base_url('inscription') ?>" class="btn-connexion">Inscription</a>
+  <?php endif; ?>
+</div>
   </div>
 </header>

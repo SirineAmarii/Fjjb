@@ -28,21 +28,24 @@
         <input type="email" name="email" value="<?= old('email', $user['email'] ?? '') ?>" required>
       </div>
 
-      <div class="form-group">
-        <label for="belt">Ceinture</label>
-        <?php
-          $belts = ['blanche', 'bleue', 'violette', 'marron', 'noire'];
-          $selectedBelt = old('belt', $user['belt'] ?? '');
-        ?>
-        <select name="belt" required>
-          <option value="">Choisir une ceinture</option>
-          <?php foreach ($belts as $belt): ?>
-            <option value="<?= esc($belt) ?>" <?= $belt === $selectedBelt ? 'selected' : '' ?>>
-              <?= ucfirst($belt) ?>
-            </option>
-          <?php endforeach; ?>
-        </select>
-      </div>
+     <?php
+  // Liste des ceintures possibles
+  $belts = ['blanche', 'bleue', 'violette', 'marron', 'noire'];
+  $selectedBelt = old('belt', $user['belt'] ?? '');
+?>
+
+<div class="form-group">
+  <label for="belt">Ceinture</label>
+  <select name="belt" id="belt" required>
+    <option value="">Choisir une ceinture</option>
+    <?php foreach ($belts as $belt): ?>
+      <option value="<?= esc($belt) ?>" <?= esc($belt) === $selectedBelt ? 'selected' : '' ?>>
+        <?= ucfirst($belt) ?>
+      </option>
+    <?php endforeach; ?>
+  </select>
+</div>
+
 
       <div class="form-group">
         <label for="club_id">Club</label>
