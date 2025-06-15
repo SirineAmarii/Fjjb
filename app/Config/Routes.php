@@ -5,6 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
 /*Index*/
 
 $routes->get('/', 'HomeController::index');
@@ -71,3 +72,4 @@ $routes->get('mentions-legales', 'PageController::mentions');
 $routes->get('politique-confidentialite', 'PageController::confidentialite');
 $routes->get('conditions-utilisation', 'PageController::conditions');
 $routes->get('contact', 'PageController::contact');
+

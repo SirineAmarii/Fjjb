@@ -16,7 +16,8 @@ class App extends BaseConfig
      *
      *    http://example.com/
      */
-    public string $baseURL = 'http://formation.acc/fjjb-bis/';
+
+    public string $baseURL = 'http://fjjb.test/';
 
     public string $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
     public string $sessionCookieName = 'ci_session';

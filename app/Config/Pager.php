@@ -25,6 +25,7 @@ class Pager extends BaseConfig
         'default_simple' => 'CodeIgniter\Pager\Views\default_simple',
         'default_head'   => 'CodeIgniter\Pager\Views\default_head',
         'front_arrows'   => 'App\Views\Pagers\front_arrows',
+
     ];
 
     /**
@@ -36,6 +37,4 @@ class Pager extends BaseConfig
      */
     public int $perPage = 20;
 }
-
-
 
