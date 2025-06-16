@@ -65,6 +65,7 @@ $routes->post('admin/clubs/store', 'AdminController::storeClub');
 $routes->get('admin/club/delete/(:num)', 'AdminController::deleteClub/$1');
 
 
+$routes->get('club-dashboard', 'ClubController::dashboard');
 
 
 

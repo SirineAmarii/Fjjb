@@ -8,7 +8,7 @@ FJJB – Accueil
 
   <section class="hero">
     <h1>Fédération de Jiu-Jitsu Brésilien</h1>
-    <a href="#competitions" class="btn-primary">Voir les prochaines compétitions</a>
+    <a href="<?= base_url('competitions') ?>" class="btn-primary">Voir les prochaines compétitions</a>
   </section>
 
  <section class="competitions-home">
@@ -28,8 +28,6 @@ FJJB – Accueil
       </div>
     </div>
    
-
-  <a href="<?= base_url('competitions') ?>" class="btn-link">Voir le calendrier complet</a>
 </section>
 
 

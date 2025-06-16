@@ -43,7 +43,7 @@ class ClubController extends BaseController
      * Tableau de bord du club connecté.
      * Affiche la liste des licenciés liés à ce club.
      */
-    public function clubDashboard()
+    public function dashboard()
     {
         // Vérifie si l'utilisateur est connecté et a le rôle 'club'
         if (!session()->get('isLoggedIn') || session()->get('role') !== 'club') {
