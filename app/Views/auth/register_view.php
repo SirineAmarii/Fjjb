@@ -1,79 +1,85 @@
-<?php // register_view.php ?>
-
-<!-- Inclut l'en-tête de la page -->
 <?= view('includes/header') ?>
 
-<!-- Section principale de la page d'inscription -->
-<section class="register-page">
+<section class="dashboard-page">
+  <div class="dashboard-box">
+    <h2>Inscription Licencié</h2>
 
-  <!-- Affiche les erreurs de validation s'il y en a -->
-  <?php if (isset($validation)): ?>
-    <div class="alert danger">
-      <?= $validation->listErrors() ?>
-    </div>
-  <?php endif; ?>
-
-  <div class="register-box">
-    <h2>Créer un compte licencié</h2>
-
-    <!-- Formulaire d'inscription -->
-    <form action="<?= base_url('inscription') ?>" method="post" enctype="multipart/form-data">
-
-      <!-- Champ du prénom -->
-      <input type="text" name="first_name" placeholder="Prénom" required>
-
-      <!-- Champ du nom -->
-      <input type="text" name="last_name" placeholder="Nom" required>
-
-      <!-- Champ de l'adresse email -->
-      <input type="email" name="email" placeholder="Adresse e-mail" required>
-
-      <!-- Champ du mot de passe -->
-      <input type="password" name="password" placeholder="Mot de passe" required>
-
-      <!-- Champ de confirmation du mot de passe -->
-      <input type="password" name="password_confirm" placeholder="Confirmer le mot de passe" required>
-
-      <!-- Sélection de la ceinture -->
-      <label for="belt">Ceinture :</label>
-      <select name="belt" required>
-        <option value="">-- Choisir votre ceinture --</option>
-        <option value="white">Blanche</option>
-        <option value="blue">Bleue</option>
-        <option value="purple">Violette</option>
-        <option value="brown">Marron</option>
-        <option value="dark">Noire</option>
-      </select>
-
-      <!-- Sélection du club affilié -->
-      <label for="club_id">Club affilié :</label>
-      <select name="club_id">
-        <option value="">-- Sélectionner un club --</option>
-        <?php foreach ($clubs as $club): ?>
-          <option value="<?= $club['id'] ?>">
-            <?= esc($club['nom']) ?> - <?= esc($club['ville']) ?>
-          </option>
+    <?php if (session()->getFlashdata('error')): ?>
+      <div class="alert red">
+        <?php foreach (session()->getFlashdata('error') as $error): ?>
+          <p><?= esc($error) ?></p>
         <?php endforeach; ?>
-      </select>
+      </div>
+    <?php endif; ?>
 
-      <!-- Champ pour ajouter un nouveau club si non présent dans la liste -->
-      <label for="new_club">Ou ajoutez un club :</label>
-      <input type="text" name="new_club" placeholder="Nom du club (si absent de la liste)">
+    <?php if (session()->getFlashdata('success')): ?>
+      <div class="alert success">
+        <?= esc(session()->getFlashdata('success')) ?>
+      </div>
+    <?php endif; ?>
 
-      <!-- Import de photo de profil -->
-      <input type="file" name="photo" accept="image/*" required>
+    <form action="<?= site_url('inscription-licencie') ?>" method="post" enctype="multipart/form-data">
+      <?= csrf_field() ?>
 
-      <!-- Bouton de soumission du formulaire -->
-      <button type="submit" class="btn red full">Créer mon compte</button>
+      <div class="form-group">
+        <label for="first_name">Prénom</label>
+        <input type="text" name="first_name" value="<?= old('first_name') ?>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="last_name">Nom</label>
+        <input type="text" name="last_name" value="<?= old('last_name') ?>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <input type="email" name="email" value="<?= old('email') ?>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="belt">Ceinture</label>
+        <select name="belt" required>
+          <option value="">Choisir une ceinture</option>
+          <?php 
+            $belts = ['blanche', 'bleue', 'violette', 'marron', 'noire'];
+            $selectedBelt = old('belt');
+            foreach ($belts as $belt): ?>
+              <option value="<?= $belt ?>" <?= $belt === $selectedBelt ? 'selected' : '' ?>>
+                <?= ucfirst($belt) ?>
+              </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="club_id">Club</label>
+        <select name="club_id" required>
+          <option value="">Sélectionnez votre club</option>
+          <?php foreach ($clubs as $club): ?>
+            <option value="<?= $club['id_club'] ?>" <?= old('club_id') == $club['id_club'] ? 'selected' : '' ?>>
+              <?= esc($club['name']) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Photo de profil (obligatoire)</label>
+        <input type="file" name="photo" accept="image/*" required>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn blue">S’inscrire</button>
+        <a href="<?= base_url('login') ?>" class="btn light">Retour</a>
+      </div>
     </form>
-
-    <!-- Lien vers la page de connexion -->
-    <p class="register-link">
-      Déjà inscrit ? <a href="<?= base_url('login') ?>">Connectez-vous</a>
-    </p>
   </div>
 </section>
 
-<!-- Inclut le pied de page -->
 <?= view('includes/footer') ?>
 

@@ -19,17 +19,16 @@ $routes->get('connexion', 'AuthController::login');
 $routes->post('connexion', 'AuthController::loginPost');
 $routes->match(['get', 'post'], 'connexion', 'AuthControllerController::login');
 
+
+
+$routes->get('inscription-licencie', 'AuthController::registerUser');
+$routes->post('inscription-licencie', 'AuthController::createUser');
 $routes->get('deconnexion', 'AuthController::logout');
 
 
 
 
-$routes->get('inscription', 'AuthController::chooseRegistration');
-$routes->get('inscription-licencie', 'AuthController::registerUser'); 
-$routes->post('inscription-licencie', 'AuthController::createUser');
-$routes->get('inscription-club', 'AuthController::registerClub');
-$routes->post('inscription-club', 'AuthController::createClub');
-$routes->match(['get', 'post'], 'inscription-club', 'Auth::createClub');
+
 
 
 
@@ -50,6 +49,12 @@ $routes->post('admin/users/update/(:num)', 'AdminController::updateUser/$1');
 $routes->get('admin/users/delete/(:num)', 'AdminController::deleteUser/$1');
 $routes->get('admin/users/add', 'AdminController::addUser');
 $routes->post('admin/users/create', 'AdminController::createUser');
+// Affichage du formulaire
+$routes->get('admin/modifier-mot-de-passe', 'AdminController::editPassword');
+// Traitement du formulaire
+$routes->post('admin/change-password', 'AdminController::changePassword');
+
+
 
 $routes->get('admin/competition/edit/(:num)', 'AdminController::editCompetition/$1');
 $routes->post('admin/competitions/update/(:num)', 'AdminController::updateCompetition/$1');
@@ -65,7 +70,7 @@ $routes->post('admin/clubs/store', 'AdminController::storeClub');
 $routes->get('admin/club/delete/(:num)', 'AdminController::deleteClub/$1');
 
 
-$routes->get('club-dashboard', 'ClubController::dashboard');
+
 
 
 

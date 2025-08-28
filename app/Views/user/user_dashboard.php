@@ -38,7 +38,7 @@
     <div class="dashboard-actions">
       <a href="<?= base_url('user-edit') ?>" class="btn">Modifier mon profil</a>
       <a href="<?= base_url('user-password') ?>" class="btn">Modifier mon mot de passe</a>
-      <a href="<?= base_url('logout') ?>" class="btn red">Déconnexion</a>
+      <a href="<?= base_url('deconnexion') ?>" class="btn red">Déconnexion</a>
     </div>
   </div>
 </section>

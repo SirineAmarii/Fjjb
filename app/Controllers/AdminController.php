@@ -439,7 +439,68 @@ public function deleteClub($id)
     return redirect()->to('admin/clubs')->with('success', 'Club supprimé avec succès.');
 }
 
+/**
+ * Modification du mot de passe (admin ou user)
+ */
+public function changePassword()
+{
+    helper(['form']);
 
+    // Règles de validation avec labels et messages personnalisés
+    $rules = [
+        'current_password' => [
+            'label' => 'Mot de passe actuel',
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Le champ {field} est requis.',
+            ],
+        ],
+        'new_password' => [
+            'label' => 'Nouveau mot de passe',
+            'rules' => 'required|min_length[6]',
+            'errors' => [
+                'required'   => 'Le champ {field} est requis.',
+                'min_length' => 'Le champ {field} doit contenir au moins 6 caractères.',
+            ],
+        ],
+        'confirm_password' => [
+            'label' => 'Confirmation du mot de passe',
+            'rules' => 'required|matches[new_password]',
+            'errors' => [
+                'required' => 'Le champ {field} est requis.',
+                'matches'  => 'Le champ {field} ne coïncide pas avec le champ Nouveau mot de passe.',
+            ],
+        ],
+    ];
+
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+    }
+
+    $userModel = new \App\Models\UserModel();
+    $user = $userModel->find(session()->get('id_user'));
+
+    // Vérifie que le mot de passe actuel est correct
+    if (!password_verify($this->request->getPost('current_password'), $user['password'])) {
+        return redirect()->back()->withInput()->with('errors', [
+            'current_password' => 'Mot de passe actuel incorrect.'
+        ]);
+    }
+
+    // Mise à jour du mot de passe
+    $userModel->update(session()->get('id_user'), [
+        'password' => password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT),
+    ]);
+
+    return redirect()->to('/admin-dashboard')->with('success', 'Mot de passe mis à jour avec succès.');
+}
+
+
+ 
+public function editPassword()
+{
+    return view('admin/change_password'); 
+}
 
 
 }

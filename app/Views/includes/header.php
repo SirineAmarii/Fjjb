@@ -55,9 +55,6 @@
 
     <?php elseif (session()->get('role') === 'licencié'): ?>
       <a href="<?= base_url('user-dashboard') ?>" class="btn-connexion">Espace licencié</a>
-
-    <?php elseif (session()->get('role') === 'club'): ?>
-      <a href="<?= base_url('club-dashboard') ?>" class="btn-connexion">Espace club</a>
     <?php endif; ?>
 
     <a href="<?= base_url('deconnexion') ?>" class="btn-connexion red">Déconnexion</a>
