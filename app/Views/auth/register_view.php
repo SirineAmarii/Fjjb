@@ -4,13 +4,14 @@
   <div class="dashboard-box">
     <h2>Inscription Licencié</h2>
 
-    <?php if (session()->getFlashdata('error')): ?>
-      <div class="alert red">
-        <?php foreach (session()->getFlashdata('error') as $error): ?>
-          <p><?= esc($error) ?></p>
-        <?php endforeach; ?>
-      </div>
-    <?php endif; ?>
+    <?php if (isset($validation)): ?>
+  <div class="alert red">
+    <?php foreach ($validation->getErrors() as $error): ?>
+      <p><?= esc($error) ?></p>
+    <?php endforeach; ?>
+  </div>
+<?php endif; ?>
+
 
     <?php if (session()->getFlashdata('success')): ?>
       <div class="alert success">
@@ -18,7 +19,7 @@
       </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('inscription-licencie') ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= site_url('/inscription') ?>" method="post" enctype="multipart/form-data">
       <?= csrf_field() ?>
 
       <div class="form-group">
@@ -42,14 +43,18 @@
       </div>
 
       <div class="form-group">
+        <label for="confirm_password">Confirmer le mot de passe</label>
+        <input type="password" name="confirm_password" required>
+      </div>
+
+      <div class="form-group">
         <label for="belt">Ceinture</label>
         <select name="belt" required>
           <option value="">Choisir une ceinture</option>
-          <?php 
+          <?php
             $belts = ['blanche', 'bleue', 'violette', 'marron', 'noire'];
-            $selectedBelt = old('belt');
             foreach ($belts as $belt): ?>
-              <option value="<?= $belt ?>" <?= $belt === $selectedBelt ? 'selected' : '' ?>>
+              <option value="<?= $belt ?>" <?= old('belt') == $belt ? 'selected' : '' ?>>
                 <?= ucfirst($belt) ?>
               </option>
           <?php endforeach; ?>
@@ -57,16 +62,17 @@
       </div>
 
       <div class="form-group">
-        <label for="club_id">Club</label>
-        <select name="club_id" required>
-          <option value="">Sélectionnez votre club</option>
-          <?php foreach ($clubs as $club): ?>
-            <option value="<?= $club['id_club'] ?>" <?= old('club_id') == $club['id_club'] ? 'selected' : '' ?>>
-              <?= esc($club['name']) ?>
-            </option>
-          <?php endforeach; ?>
-        </select>
-      </div>
+  <label for="club_id">Club</label>
+  <select name="club_id" required>
+    <option value="">Sélectionnez votre club</option>
+    <?php foreach ($clubs as $club): ?>
+      <option value="<?= esc($club['id_club']) ?>" <?= old('club_id') == $club['id_club'] ? 'selected' : '' ?>>
+        <?= esc($club['name']) ?> — <?= esc($club['city']) ?>
+      </option>
+    <?php endforeach; ?>
+  </select>
+</div>
+
 
       <div class="form-group">
         <label for="photo">Photo de profil (obligatoire)</label>
@@ -75,11 +81,10 @@
 
       <div class="form-actions">
         <button type="submit" class="btn blue">S’inscrire</button>
-        <a href="<?= base_url('login') ?>" class="btn light">Retour</a>
+        <a href="<?= base_url('connexion') ?>" class="btn light">Retour</a>
       </div>
     </form>
   </div>
 </section>
 
 <?= view('includes/footer') ?>
-

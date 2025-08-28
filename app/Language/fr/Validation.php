@@ -70,4 +70,20 @@ return [
     'mime_in'  => '{field} n\'a pas un type MIME valide.',
     'ext_in'   => 'L\'extension du fichier {field}  n\'est pas valide.',
     'max_dims' => 'Soit {field} n\'est pas une image, soit elle est trop haute ou trop large.',
+
+   
+
+
+   
+    'attributes' => [
+        'first_name' => 'prénom',
+        'last_name' => 'nom de famille',
+        'email' => 'adresse email',
+        'password' => 'mot de passe',
+        'pass_confirm' => 'confirmation du mot de passe',
+        'confirm_password' => 'confirmation du mot de passe',
+        'belt' => 'ceinture',
+        'club_id' => 'club',
+    ],
 ];
+

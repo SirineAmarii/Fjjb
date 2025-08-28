@@ -9,11 +9,26 @@
   <p class="subtext">Inscris-toi, suis les résultats et découvre les prochains évènements officiels</p>
 
   <form method="get" action="<?= base_url('competitions') ?>" class="search-bar">
-   
-    <input type="text" name="q" class="search-input" data-url="<?= base_url('competitions/search') ?>" placeholder="Rechercher une ville ou une compétition">
+    <input 
+        type="text" 
+        name="q" 
+        class="search-input" 
+        data-url="<?= base_url('competitions/search') ?>" 
+        placeholder="Rechercher une ville ou une compétition"
+        value="<?= esc($search ?? '') ?>"
+    >
 
     <button type="submit" class="btn red search-btn">Rechercher</button>
-  </form>
+
+    <?php if (!empty($search)) : ?>
+        <a href="<?= site_url('competitions') ?>" class="btn grey" style="margin-left: 10px;">
+            Réinitialiser
+        </a>
+    <?php endif; ?>
+</form>
+
+
+
 
   <div class="competitions-grid">
     <?php if (!empty($competitions)) : ?>

@@ -2,41 +2,34 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
-use CodeIgniter\Controller;
+use App\Models\ClubModel;
 
 class ClubController extends BaseController
-
 {
-
     /**
-     * Affiche la liste des clubs.
-     * Permet de rechercher par nom ou ville.
+     * Affiche la liste des clubs avec recherche et pagination.
      */
-
-        public function index()
+    public function index()
     {
-        $clubModel = new \App\Models\ClubModel();
+        $clubModel = new ClubModel();
         $query = $this->request->getGet('q');
 
         $builder = $clubModel->where('visible', 1);
 
-    if ($query) {
-        $builder->groupStart()
-            ->like('nom', $query)
-            ->orLike('ville', $query)
-            ->groupEnd();
-    }
+        if (!empty($query)) {
+            $builder->groupStart()
+                ->like('name', $query)
+                ->orLike('city', $query)
+                ->groupEnd();
+        }
 
-    
-    
-        // Charger les clubs visibles, paginés par 3
-        $data['clubs'] = $clubModel->where('visible', 1)->paginate(3);
-    
-        // Passer le pager à la vue
+        // Appliquer pagination
+        $data['clubs'] = $builder->paginate(3);
         $data['pager'] = $clubModel->pager;
-    
+        $data['search'] = $query; // Pour que le champ garde la valeur et afficher "Réinitialiser"
+
         return view('index/clubs_view', $data);
     }
-
 }
+
+

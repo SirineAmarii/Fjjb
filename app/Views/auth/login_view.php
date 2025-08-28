@@ -35,7 +35,7 @@
 
     <!-- Lien vers la page d'inscription -->
     <p class="register-link">
-      Pas encore inscrit ? <a href="<?= base_url('inscription-licencie') ?>">Créez un compte</a>
+      Pas encore inscrit ? <a href="<?= base_url('inscription') ?>">Créez un compte</a>
    
     </p>
 

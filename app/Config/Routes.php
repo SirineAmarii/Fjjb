@@ -21,8 +21,9 @@ $routes->match(['get', 'post'], 'connexion', 'AuthControllerController::login');
 
 
 
-$routes->get('inscription-licencie', 'AuthController::registerUser');
-$routes->post('inscription-licencie', 'AuthController::createUser');
+$routes->get('inscription', 'AuthController::register');
+$routes->post('inscription', 'AuthController::register');
+
 $routes->get('deconnexion', 'AuthController::logout');
 
 

@@ -8,23 +8,18 @@ class CompetitionController extends BaseController
     {
         $competitionModel = new \App\Models\CompetitionModel();
         $query = $this->request->getGet('q');
-    
+
         $builder = $competitionModel->where('visible', 1);
 
         if (trim($query) !== '') {
-    $builder->groupStart()
-        ->like('ville', $query)
-        ->orLike('nom', $query)
-        ->groupEnd();
-}
+            $builder->groupStart()
+                ->like('city', $query)
+                ->orLike('name', $query)
+                ->groupEnd();
+        }
 
-
-    
         $data['competitions'] = $builder->orderBy('event_date', 'DESC')->findAll();
+        $data['search'] = $query; // 👈 AJOUT OBLIGATOIRE pour réutiliser dans la vue
         return view('index/competitions_view', $data);
     }
-
-
-
-
 }

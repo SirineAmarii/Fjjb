@@ -61,92 +61,68 @@ class AuthController extends BaseController
         }
     }
 
-    // Affiche le formulaire d'inscription licencié
-    public function registerUser()
-    {
-        $clubModel = new ClubModel();
-        $data['clubs'] = $clubModel->findAll();
-
-        return view('auth/register_view', $data);
-    }
-
-    // Traite l'inscription d'un licencié
-    public function createUser()
+    public function register()
     {
         helper(['form']);
-        $validation = \Config\Services::validation();
-
-        // Définition des règles de validation
-        $rules = [
-            'first_name' => [
-                'rules'  => 'required',
-                'errors' => ['required' => 'Le prénom est obligatoire.']
-            ],
-            'last_name' => [
-                'rules'  => 'required',
-                'errors' => ['required' => 'Le nom est obligatoire.']
-            ],
-'email' => [
-    'rules'  => 'required|valid_email|is_unique[users.email]',
-    'errors' => [
-        'required'   => 'L\'adresse email est obligatoire.',
-        'valid_email'=> 'L\'email n\'est pas valide.',
-        'is_unique'  => 'Cette adresse email est déjà associée à un compte.'
-    ]
-],
-
-
-
-            'password' => [
-                'rules'  => 'required|min_length[6]',
-                'errors' => [
-                    'required'   => 'Le mot de passe est obligatoire.',
-                    'min_length' => 'Le mot de passe doit contenir au moins 6 caractères.'
-                ]
-            ],
-            'belt' => [
-                'rules'  => 'required',
-                'errors' => ['required' => 'La ceinture est obligatoire.']
-            ],
-            'club_id' => [
-                'rules'  => 'required',
-                'errors' => ['required' => 'Le choix du club est obligatoire.']
-            ],
-            'photo' => [
-                'rules'  => 'uploaded[photo]|is_image[photo]|mime_in[photo,image/png,image/jpg,image/jpeg]',
-                'errors' => [
-                    'uploaded' => 'La photo de profil est obligatoire.',
-                    'is_image' => 'Le fichier doit être une image.',
-                    'mime_in'  => 'Formats acceptés : PNG, JPG, JPEG.'
-                ]
-            ],
-        ];
-
-        // Si la validation échoue
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('error', $validation->getErrors());
+    
+        $clubModel = new \App\Models\ClubModel();
+        $clubs = $clubModel->findAll();
+    
+        if ($this->request->getMethod() == 'post') {
+            $rules = [
+                'first_name' => [
+                    'label' => 'Prénom',
+                    'rules' => 'required|min_length[2]'
+                ],
+                'last_name' => [
+                    'label' => 'Nom de famille',
+                    'rules' => 'required|min_length[2]'
+                ],
+                'email' => [
+                    'label' => 'Adresse e-mail',
+                    'rules' => 'required|valid_email|is_unique[users.email]'
+                ],
+                'password' => [
+                    'label' => 'Mot de passe',
+                    'rules' => 'required|min_length[6]'
+                ],
+                'confirm_password' => [
+                    'label' => 'Confirmation du mot de passe',
+                    'rules' => 'required|matches[password]'
+                ],
+                'club_id' => [
+                    'label' => 'Club',
+                    'rules' => 'required|integer'
+                ],
+            ];
+    
+            if (!$this->validate($rules)) {
+                return view('auth/register_view', [
+                    'validation' => $this->validator,
+                    'clubs' => $clubs
+                ]);
+            }
+    
+            $userModel = new \App\Models\UserModel();
+    
+            $data = [
+                'first_name' => $this->request->getPost('first_name'),
+                'last_name' => $this->request->getPost('last_name'),
+                'email' => $this->request->getPost('email'),
+                'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+                'belt' => 'blanche',
+                'role' => 'licencié',
+                'club_id' => $this->request->getPost('club_id'),
+            ];
+    
+            $userModel->save($data);
+    
+            return redirect()->to('/connexion')->with('success', 'Inscription réussie.');
         }
-
-        // Traitement de l'upload de la photo
-        $photo = $this->request->getFile('photo');
-        $newName = $photo->getRandomName();
-        $photo->move(ROOTPATH . 'public/uploads/users', $newName);
-
-        // Insertion du nouvel utilisateur en base
-        $userModel = new UserModel();
-        $userModel->insert([
-            'first_name' => $this->request->getPost('first_name'),
-            'last_name'  => $this->request->getPost('last_name'),
-            'email'      => $this->request->getPost('email'),
-            'password'   => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'belt'       => $this->request->getPost('belt'),
-            'club_id'    => $this->request->getPost('club_id'),
-            'photo'      => $newName,
-            'role'       => 'licencié' // Par défaut, chaque inscrit est un utilisateur simple
-        ]);
-
-        return redirect()->to('connexion')->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
+    
+        return view('auth/register_view', ['clubs' => $clubs]);
     }
+    
 
     // Déconnexion de l'utilisateur
 public function logout()

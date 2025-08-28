@@ -5,8 +5,21 @@
 
 
   <form method="get" action="<?= base_url('clubs') ?>" class="search-bar">
-  <input type="text" name="q" class="search-input" placeholder="Rechercher un club ou une ville" value="<?= esc($_GET['q'] ?? '') ?>">
-  <button type="submit" class="btn red search-btn">Rechercher</button>
+    <input 
+        type="text" 
+        name="q" 
+        class="search-input" 
+        placeholder="Rechercher un club ou une ville"
+        value="<?= esc($search ?? '') ?>" 
+    >
+    
+    <button type="submit" class="btn red search-btn">Rechercher</button>
+
+    <?php if (!empty($search)) : ?>
+        <a href="<?= site_url('clubs') ?>" class="btn grey" style="margin-left: 10px;">
+            Réinitialiser
+        </a>
+    <?php endif; ?>
 </form>
 
  
