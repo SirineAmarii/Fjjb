@@ -29,52 +29,75 @@ class UserController extends BaseController
     }
 
     public function editProfile()
-    {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('/login');
-        }
-
-        $userModel = new UserModel();
-        $clubModel = new ClubModel();
-
-        $user = $userModel->find(session()->get('id_user'));
-        $clubs = $clubModel->findAll();
-
-        return view('user/edit_profile', [
-            'user' => $user,
-            'clubs' => $clubs
-        ]);
+{
+    if (!session()->get('isLoggedIn')) {
+        return redirect()->to('/login');
     }
+
+    $userModel = new UserModel();
+    $clubModel = new ClubModel();
+
+    $user = $userModel->find(session()->get('id_user'));
+    $clubs = $clubModel->findAll();
+
+   
+    $belts = ['blanche', 'bleue', 'violette', 'marron', 'noire'];
+
+    return view('user/edit_profile', [
+        'user' => $user,
+        'clubs' => $clubs,
+        'belts' => $belts
+    ]);
+}
+
 
     public function updateProfile()
-    {
-        helper(['form']);
+{
+    helper(['form']);
 
-        $userModel = new UserModel();
-        $id = session()->get('id_user');
+    $userModel = new UserModel();
+    $id = session()->get('id_user');
+    $user = $userModel->find($id); 
 
-        $rules = [
-            'first_name' => 'required',
-            'last_name'  => 'required',
-            'email'      => 'required|valid_email',
-            'belt'       => 'required',
-            'club_id'    => 'permit_empty|integer'
-        ];
+    $rules = [
+        'first_name' => 'required',
+        'last_name'  => 'required',
+        'email'      => 'required|valid_email',
+        'belt'       => 'required',
+        'club_id'    => 'permit_empty|integer',
+        'photo'      => 'if_exist|is_image[photo]|max_size[photo,2048]'
+    ];
 
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
+    }
+
+    $data = [
+        'first_name' => $this->request->getPost('first_name'),
+        'last_name'  => $this->request->getPost('last_name'),
+        'email'      => $this->request->getPost('email'),
+        'belt'       => $this->request->getPost('belt'),
+        'club_id'    => $this->request->getPost('club_id')
+    ];
+
+    $photo = $this->request->getFile('photo');
+
+    if ($photo && $photo->isValid() && !$photo->hasMoved()) {
+        // Supprimer l'ancienne photo si elle existe
+        if (!empty($user['photo']) && file_exists('uploads/users/' . $user['photo'])) {
+            unlink('uploads/users/' . $user['photo']);
         }
 
-        $userModel->update($id, [
-            'first_name' => $this->request->getPost('first_name'),
-            'last_name'  => $this->request->getPost('last_name'),
-            'email'      => $this->request->getPost('email'),
-            'belt'       => $this->request->getPost('belt'),
-            'club_id'    => $this->request->getPost('club_id')
-        ]);
-
-        return redirect()->to('user-dashboard')->with('success', 'Profil mis à jour.');
+        $newName = $photo->getRandomName();
+        $photo->move('uploads/users/', $newName);
+        $data['photo'] = $newName;
     }
+
+    $userModel->update($id, $data);
+
+    return redirect()->to('user-dashboard')->with('success', 'Profil mis à jour.');
+}
+
 
     public function changePassword()
 {

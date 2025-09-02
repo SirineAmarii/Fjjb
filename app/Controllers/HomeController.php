@@ -6,6 +6,18 @@ class HomeController extends BaseController
 {
     public function index()
     {
-        return view('index/home_view');
+        $competitionModel = new \App\Models\CompetitionModel();
+    
+       
+        $data['competitions'] = $competitionModel
+            ->where('event_date >=', date('Y-m-d')) 
+            ->orderBy('event_date', 'ASC')
+            ->limit(3)
+            ->find();
+    
+        return view('index/home_view', $data);
     }
+    
+
+    
 }

@@ -94,6 +94,10 @@ class AuthController extends BaseController
                     'label' => 'Club',
                     'rules' => 'required|integer'
                 ],
+                'photo' => [
+                    'label' => 'Photo de profil',
+                    'rules' => 'uploaded[photo]|is_image[photo]|max_size[photo,2048]'
+                ],
             ];
     
             if (!$this->validate($rules)) {
@@ -101,6 +105,15 @@ class AuthController extends BaseController
                     'validation' => $this->validator,
                     'clubs' => $clubs
                 ]);
+            }
+    
+            // Gestion de l'image
+            $photo = $this->request->getFile('photo');
+            $photoName = null;
+    
+            if ($photo && $photo->isValid() && !$photo->hasMoved()) {
+                $photoName = $photo->getRandomName();
+                $photo->move(FCPATH . 'uploads/users/', $photoName); // ✅ chemin corrigé
             }
     
             $userModel = new \App\Models\UserModel();
@@ -113,6 +126,7 @@ class AuthController extends BaseController
                 'belt' => 'blanche',
                 'role' => 'licencié',
                 'club_id' => $this->request->getPost('club_id'),
+                'photo' => $photoName,
             ];
     
             $userModel->save($data);
@@ -123,7 +137,6 @@ class AuthController extends BaseController
         return view('auth/register_view', ['clubs' => $clubs]);
     }
     
-
     // Déconnexion de l'utilisateur
 public function logout()
 {

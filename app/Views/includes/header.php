@@ -14,8 +14,9 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="<?= base_url('public/favicon.png') ?>">
 
-  <!-- Script JavaScript -->
-  <script src="<?= base_url('public/assets/js/script.js') ?>"></script>
+  
+ 
+
 </head>
 <body>
 

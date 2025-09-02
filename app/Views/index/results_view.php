@@ -3,40 +3,66 @@
 <section class="resultats-page">
   <h2>Résultats des compétitions FJJB</h2>
 
-  <div class="search-zone">
-    <input type="text" class="result-search" placeholder="Nom de la compétition ou de l’athlète">
-  </div>
+  <!-- Barre de recherche -->
+  <form method="get" action="<?= base_url('results') ?>" class="search-bar">
+    <input 
+        type="text" 
+        name="q" 
+        class="search-input" 
+        data-url="<?= base_url('results-search') ?>" 
+        placeholder="Rechercher un athlète ou une compétition"
+        value="<?= esc($search ?? '') ?>"
+    >
 
-  <div class="filters-result">
-    <select><option>Année</option></select>
-    <select><option>Ville</option></select>
-    <select><option>Catégorie</option></select>
-    <button class="btn red">Filtrer</button>
-  </div>
+    <button type="submit" class="btn red search-btn">Rechercher</button>
+
+    <?php if (!empty($search)) : ?>
+        <a href="<?= site_url('results') ?>" class="btn grey" style="margin-left: 10px;">
+            Réinitialiser
+        </a>
+    <?php endif; ?>
+  </form>
 
   <div class="resultats-table-wrapper">
     <table class="resultats-table">
       <thead>
         <tr>
-          <th>Compétitions</th>
+          <th>Compétition</th>
           <th>Catégorie</th>
           <th>Nom du gagnant</th>
           <th>Club</th>
-          <th>Résultats</th>
+          <th>Résultat</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Exemples de lignes statiques -->
-        <tr>
-          <td>Open Marseille</td>
-          <td>Adult -76kg</td>
-          <td>Ahmed B.</td>
-          <td>Alliance Paris</td>
-          <td>Victoire par soumission</td>
-        </tr>
+      <tbody id="results-table-body">
+        <?php if (!empty($results)): ?>
+          <?php foreach ($results as $result): ?>
+            <tr>
+              <td><?= esc($result['competition_name']) ?></td>
+              <td><?= esc($result['category']) ?></td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                 
+                  <img src="<?= base_url('uploads/users/' . ($result['photo'] ?? 'default.png')) ?>" 
+                       alt="Photo" width="40" height="40" style="object-fit: cover; border-radius: 50%;">
+                  
+                  <?= esc($result['first_name']) . ' ' . esc($result['last_name']) ?>
+                </div>
+              </td>
+              <td><?= esc($result['club_name']) ?></td>
+              <td><?= esc($result['position']) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr>
+            <td colspan="5">Aucun résultat trouvé.</td>
+          </tr>
+        <?php endif; ?>
+    
+
       </tbody>
     </table>
   </div>
 </section>
 
-<?= view('includes/footer') ?>
+

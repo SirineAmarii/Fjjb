@@ -1,22 +1,45 @@
-//Barre de recherche
-
 document.addEventListener('DOMContentLoaded', function () {
-  const input = document.querySelector('.search-input');
-  const results = document.querySelector('.competitions-grid');
+  const searchInput = document.querySelector('.search-input');
+  const form = document.querySelector('.search-bar');
+  const tbody = document.getElementById('results-table-body');
 
-  if (!input || !results) return;
+  
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+  });
 
-  input.addEventListener('input', function () {
-    const query = this.value.trim();
-    const url = input.dataset.url;
+  searchInput.addEventListener('input', function () {
+    const query = searchInput.value.trim();
+    const url = searchInput.getAttribute('data-url');
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url + '?q=' + encodeURIComponent(query), true);
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        results.innerHTML = xhr.responseText;
-      }
-    };
-    xhr.send();
+    fetch(`${url}?q=${encodeURIComponent(query)}`)
+      .then(response => response.json())
+      .then(results => {
+        tbody.innerHTML = ''; 
+
+        if (results.length > 0) {
+          results.forEach(result => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${result.competition_name}</td>
+              <td>${result.category}</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="/uploads/users/${result.photo ?? 'default.png'}" 
+                       alt="Photo" width="40" height="40" style="object-fit: cover; border-radius: 50%;">
+                  ${result.first_name} ${result.last_name}
+                </div>
+              </td>
+              <td>${result.club_name}</td>
+              <td>${result.position}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        } else {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td colspan="5">Aucun résultat trouvé.</td>`;
+          tbody.appendChild(row);
+        }
+      });
   });
 });

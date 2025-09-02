@@ -11,24 +11,30 @@ FJJB – Accueil
     <a href="<?= base_url('competitions') ?>" class="btn-primary">Voir les prochaines compétitions</a>
   </section>
 
- <section class="competitions-home">
+  <section class="competitions-home">
   <h2>Nos compétitions</h2>
-    <div class="cards">
-      <div class="card red">
-        <p class="date">18 juin 2025</p>
-        <h3>Open Marseille</h3>
-      </div>
-      <div class="card blue">
-        <p class="date">27 sept. 2025</p>
-        <h3>Open Lyon</h3>
-      </div>
-      <div class="card dark">
-        <p class="date">10 nov. 2025</p>
-        <h3>Championnat National</h3>
-      </div>
-    </div>
-   
+  <div class="competitions-grid">
+    <?php if (!empty($competitions)): ?>
+      <?php foreach ($competitions as $competition): ?>
+        <div class="competition-card">
+        <img src="<?= base_url('public/assets/images/competitions/' . $competition['image']) ?>" alt="<?= esc($competition['name']) ?>">
+          <div class="competition-content">
+            <h3><?= esc($competition['name']) ?></h3>
+            <p class="date"><?= date('d/m/Y', strtotime($competition['event_date'])) ?></p>
+            <div class="actions">
+              <a href="<?= base_url('competition/' . $competition['id_competition']) ?>" class="btn blue">Voir</a>
+              <a href="<?= base_url('inscription/' . $competition['id_competition']) ?>" class="btn red">S’inscrire</a>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p>Aucune compétition pour le moment.</p>
+    <?php endif; ?>
+  </div>
 </section>
+
+
 
 
   <section class="about">

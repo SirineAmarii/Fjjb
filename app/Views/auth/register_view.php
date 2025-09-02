@@ -74,10 +74,14 @@
 </div>
 
 
-      <div class="form-group">
-        <label for="photo">Photo de profil (obligatoire)</label>
-        <input type="file" name="photo" accept="image/*" required>
-      </div>
+<div class="form-group">
+  <label for="photo">Photo de profil (obligatoire)</label>
+  <input type="file" name="photo" accept="image/*" required class="form-control">
+  <?php if (isset($validation)): ?>
+    <div class="text-danger"><?= $validation->showError('photo') ?></div>
+  <?php endif; ?>
+</div>
+
 
       <div class="form-actions">
         <button type="submit" class="btn blue">S’inscrire</button>

@@ -21,7 +21,9 @@
 
     <div class="profile-section">
       <div class="profile-photo">
-        <img src="<?= base_url('public/uploads/users/' . ($user['photo'] ?? 'default.png')) ?>" alt="Photo de profil" width="120">
+      <img src="<?= base_url('uploads/users/' . ($user['photo'] ?? 'default.png')) ?>" alt="Photo de profil" width="120">
+
+
       </div>
       <div class="profile-details">
         <ul class="user-infos">

@@ -12,7 +12,13 @@
       </div>
     <?php endif; ?>
 
-    <form action="<?= base_url('user-edit') ?>" method="post">
+    <?php
+      
+      $belts = ['blanche', 'bleue', 'violette', 'marron', 'noire'];
+      $selectedBelt = old('belt', $user['belt'] ?? '');
+    ?>
+
+    <form action="<?= base_url('user-edit') ?>" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="first_name">Prénom</label>
         <input type="text" name="first_name" value="<?= old('first_name', $user['first_name'] ?? '') ?>" required>
@@ -28,24 +34,17 @@
         <input type="email" name="email" value="<?= old('email', $user['email'] ?? '') ?>" required>
       </div>
 
-     <?php
-  // Liste des ceintures possibles
-  $belts = ['blanche', 'bleue', 'violette', 'marron', 'noire'];
-  $selectedBelt = old('belt', $user['belt'] ?? '');
-?>
-
-<div class="form-group">
-  <label for="belt">Ceinture</label>
-  <select name="belt" id="belt" required>
-    <option value="">Choisir une ceinture</option>
-    <?php foreach ($belts as $belt): ?>
-      <option value="<?= esc($belt) ?>" <?= esc($belt) === $selectedBelt ? 'selected' : '' ?>>
-        <?= ucfirst($belt) ?>
-      </option>
-    <?php endforeach; ?>
-  </select>
-</div>
-
+      <div class="form-group">
+        <label for="belt">Ceinture</label>
+        <select name="belt" id="belt" required>
+          <option value="">Choisir une ceinture</option>
+          <?php foreach ($belts as $belt): ?>
+            <option value="<?= esc($belt) ?>" <?= esc($belt) === $selectedBelt ? 'selected' : '' ?>>
+              <?= ucfirst($belt) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
 
       <div class="form-group">
         <label for="club_id">Club</label>
@@ -59,6 +58,18 @@
         </select>
       </div>
 
+      <div class="form-group">
+        <label for="photo">Nouvelle photo de profil (optionnelle)</label>
+        <input type="file" name="photo" accept="image/*">
+      </div>
+
+      <?php if (!empty($user['photo'])): ?>
+        <div class="form-group">
+          <label>Photo actuelle :</label><br>
+          <img src="<?= base_url('uploads/users/' . $user['photo']) ?>" alt="Photo de profil" style="max-width: 100px; border-radius: 50%;">
+        </div>
+      <?php endif; ?>
+
       <div class="form-actions">
         <button type="submit" class="btn blue">Enregistrer</button>
         <a href="<?= base_url('user-dashboard') ?>" class="btn light">Annuler</a>
@@ -68,7 +79,3 @@
 </section>
 
 <?= view('includes/footer') ?>
-
-
-
-
