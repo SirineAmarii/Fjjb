@@ -43,8 +43,7 @@
               <td>
                 <div style="display: flex; align-items: center; gap: 8px;">
                  
-                  <img src="<?= base_url('uploads/users/' . ($result['photo'] ?? 'default.png')) ?>" 
-                       alt="Photo" width="40" height="40" style="object-fit: cover; border-radius: 50%;">
+                 
                   
                   <?= esc($result['first_name']) . ' ' . esc($result['last_name']) ?>
                 </div>
