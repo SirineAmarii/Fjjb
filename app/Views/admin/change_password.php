@@ -18,7 +18,7 @@
       </div>
     <?php endif; ?>
 
-    <form action="<?= base_url('user-password') ?>" method="post" class="form-vertical">
+    <form action="<?= base_url('user/password') ?>" method="post" class="form-vertical">
       <div class="form-group">
         <label for="current_password">Mot de passe actuel</label>
         <input type="password" name="current_password" required>
@@ -36,7 +36,7 @@
 
       <div class="form-actions">
         <button type="submit" class="btn blue">Enregistrer</button>
-        <a href="<?= base_url('user-dashboard') ?>" class="btn light">Annuler</a>
+        <a href="<?= base_url('user/dashboard') ?>" class="btn light">Annuler</a>
       </div>
     </form>
   </div>

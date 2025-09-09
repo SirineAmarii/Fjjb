@@ -14,8 +14,8 @@
 
 
 <div class="btn-retour-container">
-  <a href="<?= base_url('admin-dashboard') ?>" class="btn-retour">← Retour au tableau de bord</a>
-  <a href="<?= base_url('admin/users/add') ?>" class="btn red">Ajouter un utilisateur</a>
+  <a href="<?= base_url('admin/dashboard') ?>" class="btn-retour">← Retour au tableau de bord</a>
+  <a href="<?= base_url('admin/users/add') ?>" class="btn-action red">Ajouter un utilisateur</a>
 </div>
 
 

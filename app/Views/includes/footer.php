@@ -45,7 +45,7 @@
   <p class="copyright">© 2025 FJJB — Tous droits réservés</p>
 
   <!-- Inclusion du script JavaScript -->
-  <script src="<?= base_url('assets/js/script.js') ?>"></script>
+  <script src="<?= base_url('public/assets/js/script.js') ?>"></script>
  
 
 </footer>

@@ -85,7 +85,7 @@
 
       <div class="form-actions">
         <button type="submit" class="btn blue">S’inscrire</button>
-        <a href="<?= base_url('connexion') ?>" class="btn light">Retour</a>
+        <a href="<?= base_url('connexion') ?>" class="btn-action red">Retour</a>
       </div>
     </form>
   </div>

@@ -18,7 +18,7 @@
       $selectedBelt = old('belt', $user['belt'] ?? '');
     ?>
 
-    <form action="<?= base_url('user-edit') ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url('user/edit') ?>" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="first_name">Prénom</label>
         <input type="text" name="first_name" value="<?= old('first_name', $user['first_name'] ?? '') ?>" required>
@@ -72,7 +72,7 @@
 
       <div class="form-actions">
         <button type="submit" class="btn blue">Enregistrer</button>
-        <a href="<?= base_url('user-dashboard') ?>" class="btn light">Annuler</a>
+        <a href="<?= base_url('user/dashboard') ?>" class="btn light">Annuler</a>
       </div>
     </form>
   </div>

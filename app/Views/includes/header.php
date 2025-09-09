@@ -52,10 +52,10 @@
   <?php if (session()->get('isLoggedIn')): ?>
 
     <?php if (session()->get('role') === 'admin'): ?>
-      <a href="<?= base_url('admin-dashboard') ?>" class="btn-connexion">Espace admin</a>
+      <a href="<?= base_url('admin/dashboard') ?>" class="btn-connexion">Espace admin</a>
 
     <?php elseif (session()->get('role') === 'licencié'): ?>
-      <a href="<?= base_url('user-dashboard') ?>" class="btn-connexion">Espace licencié</a>
+      <a href="<?= base_url('user/dashboard') ?>" class="btn-connexion">Espace licencié</a>
     <?php endif; ?>
 
     <a href="<?= base_url('deconnexion') ?>" class="btn-connexion red">Déconnexion</a>

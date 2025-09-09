@@ -16,3 +16,5 @@ class ClubModel extends Model
     protected $returnType = 'array';
     protected $useTimestamps = true;
 }
+ namespace App\Models;
+

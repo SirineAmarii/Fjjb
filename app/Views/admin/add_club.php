@@ -53,7 +53,7 @@
 
       <div class="form-actions">
         <button type="submit" class="btn blue">Ajouter</button>
-        <a href="<?= base_url('admin/clubs') ?>" class="btn light">Annuler</a>
+        <a href="<?= base_url('admin/clubs') ?>" class="btn-action red">Annuler</a>
       </div>
     </form>
   </div>

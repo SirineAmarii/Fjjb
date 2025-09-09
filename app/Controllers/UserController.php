@@ -95,7 +95,7 @@ class UserController extends BaseController
 
     $userModel->update($id, $data);
 
-    return redirect()->to('user-dashboard')->with('success', 'Profil mis à jour.');
+    return redirect()->to('user/dashboard')->with('success', 'Profil mis à jour.');
 }
 
 
@@ -133,7 +133,7 @@ public function updatePassword()
         'password' => password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT)
     ]);
 
-    return redirect()->to('user-dashboard')->with('success', 'Mot de passe mis à jour avec succès.');
+    return redirect()->to('user/dashboard')->with('success', 'Mot de passe mis à jour avec succès.');
 }
 
 }

@@ -45,11 +45,11 @@ class AuthController extends BaseController
 
                 // Redirection en fonction du rôle
                 if ($user['role'] === 'admin') {
-                    return redirect()->to('admin-dashboard');
+                    return redirect()->to('admin/dashboard');
                 } elseif ($user['role'] === 'club') {
-                    return redirect()->to('club-dashboard');
+                    return redirect()->to('club/dashboard');
                 } else {
-                    return redirect()->to('user-dashboard');
+                    return redirect()->to('user/dashboard');
                 }
             } else {
                 $session->setFlashdata('error', 'Mot de passe incorrect');

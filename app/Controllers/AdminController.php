@@ -8,23 +8,27 @@ use App\Models\ClubModel;
 
 class AdminController extends BaseController
 {
+    /**
+     * Affichage du tableau de bord admin
+     */
     public function dashboard()
     {
+        /* Vérification si l'utilisateur est connecté et est admin */
         if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
             return redirect()->to('/');
         }
-
+/* Chargement des modèles */
         $userModel = new UserModel();
         $clubModel = new ClubModel();
         $competitionModel = new CompetitionModel();
-
+/* Récupération des statistiques */
         $data = [
             'nb_users' => $userModel->countAllResults(),
             'nb_clubs' => $clubModel->countAllResults(),
             'nb_compets' => $competitionModel->countAllResults(),
             'admin_name' => session()->get('prenom')
         ];
-
+/* Affichage de la vue avec les données */
         return view('admin/admin_dashboard', $data);
 
     }
@@ -36,19 +40,22 @@ class AdminController extends BaseController
 
 public function addCompetition()
 {
+    // Vérification si l'utilisateur est connecté et est admin
     if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
         return redirect()->to('/');
     }
-
+// Affichage du formulaire d'ajout de compétition
     return view('admin/add_competition');
 }
 
+/* Création d'une nouvelle compétition */
 public function createCompetition()
 {
+    
     helper(['form']);
-
+// Règles de validation
     $validation = \Config\Services::validation();
-
+// Règles dans un tableau propre
     $rules = [
         'name'       => 'required',
         'event_date' => 'required|valid_date',
@@ -58,7 +65,7 @@ public function createCompetition()
         'visible'    => 'required|in_list[0,1]',
         'image'      => 'uploaded[image]|is_image[image]|max_size[image,2048]'
     ];
-
+// Appliquer les règles
     if (!$this->validate($rules)) {
         return redirect()->back()->withInput()->with('error', $validation->getErrors());
     }
@@ -66,12 +73,12 @@ public function createCompetition()
     // gestion de l'image
     $image = $this->request->getFile('image');
     $imageName = null;
-
+// Si une image est uploadée et valide, on la déplace
     if ($image && $image->isValid() && !$image->hasMoved()) {
         $imageName = $image->getRandomName();
         $image->move('public/assets/images/competitions', $imageName);
     }
-
+// Insertion de la compétition
     $model = new \App\Models\CompetitionModel();
     $model->save([
         'name'       => $this->request->getPost('name'),
@@ -82,44 +89,53 @@ public function createCompetition()
         'visible'    => $this->request->getPost('visible'),
         'image'      => $imageName
     ]);
-
+// Redirection avec message de succès
     return redirect()->to('admin/competitions')->with('success', 'Compétition ajoutée avec succès.');
 }
 
-
+/* Edition d'une compétition */
 public function editCompetition($id)
 {
+    //
     $competitionModel = new \App\Models\CompetitionModel();
     $competition = $competitionModel->find($id);
-
+// Vérification si la compétition existe
     if (!$competition) {
         return redirect()->to('admin/competitions')->with('error', 'Compétition introuvable.');
     }
-
+// Affichage du formulaire d'édition avec les données de la compétition
     return view('admin/edit_competition', ['competition' => $competition]);
 }
 
+/* Liste des compétitions */
 public function manageCompetitions()
 {
+    // Vérification si l'utilisateur est connecté et est admin
     if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
         return redirect()->to('/');
     }
 
+    // Récupération de toutes les compétitions
     $competitionModel = new \App\Models\CompetitionModel();
     $competitions = $competitionModel->findAll();
 
+    // Affichage de la vue avec les compétitions
     return view('admin/competitions_list', ['competitions' => $competitions]);
 }
 
+// Mise à jour d'une compétition
 public function updateCompetition($id)
 {
+    
     $competitionModel = new \App\Models\CompetitionModel();
     $competition = $competitionModel->find($id);
 
+    // Vérification si la compétition existe
     if (!$competition) {
         return redirect()->to('admin/competitions')->with('error', 'Compétition introuvable.');
     }
 
+    // Règles de validation
     $data = [
         'name'       => $this->request->getPost('nom'),
         'event_date' => $this->request->getPost('event_date'),
@@ -137,16 +153,22 @@ public function updateCompetition($id)
         $data['image'] = $newName;
     }
 
+    // Mise à jour de la compétition
     $competitionModel->update($id, $data);
 
+    // Redirection avec message de succès
     return redirect()->to('admin/competitions')->with('success', 'Compétition mise à jour.');
 }
 
+/* Suppression d'une compétition */
+
 public function deleteCompetition($id)
 {
+    // Récupérer la compétition
     $competitionModel = new \App\Models\CompetitionModel();
     $competition = $competitionModel->find($id);
 
+    // Vérification si la compétition existe
     if (!$competition) {
         return redirect()->to('admin/competitions')->with('error', 'Compétition introuvable.');
     }
@@ -156,8 +178,10 @@ public function deleteCompetition($id)
         unlink('public/assets/images/competitions/' . $competition['image']);
     }
 
+    // Supprimer la compétition
     $competitionModel->delete($id);
 
+    // Redirection avec message de succès
     return redirect()->to('admin/competitions')->with('success', 'Compétition supprimée avec succès.');
 }
 
@@ -492,7 +516,7 @@ public function changePassword()
         'password' => password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT),
     ]);
 
-    return redirect()->to('/admin-dashboard')->with('success', 'Mot de passe mis à jour avec succès.');
+    return redirect()->to('admin/dashboard')->with('success', 'Mot de passe mis à jour avec succès.');
 }
 
 

@@ -14,7 +14,7 @@
 
 
 <div class="btn-retour-container">
-  <a href="<?= base_url('admin-dashboard') ?>" class="btn-retour">← Retour au tableau de bord</a>
+  <a href="<?= base_url('admin/dashboard') ?>" class="btn-retour">← Retour au tableau de bord</a>
   <a href="<?= base_url('admin/competition/add') ?>" class="btn red">Ajouter une competition</a>
 </div>
 
